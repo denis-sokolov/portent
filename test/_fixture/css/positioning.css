@@ -1,0 +1,8 @@
+p {
+	margin-bottom: 10em;
+	no-less-here: @see;
+}
+
+:fullscreen p {
+	color: white;
+}

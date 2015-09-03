@@ -1,0 +1,49 @@
+<!doctype html>
+
+<!-- The following line fixes IE blocking downloads on conditional comments -->
+<!--[if IE]><![endif]-->
+
+<html lang={{ lang or 'en' }}>
+
+<meta charset="utf-8">
+<title>{% block title %}Title{% endblock %}</title>
+
+<!--
+	X-UA-Compatible must appear at the top, except for meta and title
+	IE=edge still is useful forhiding compatibility button,
+	for fixing websites served in an intranet, for improved functionality in 8.
+-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!--
+	initial-scale=1 fixes some browsers that would otherwise not reflow
+	on rotating to landscape
+-->
+<meta name=viewport content="width=device-width, initial-scale=1">
+
+<!--
+	Theme color is used by Chrome on Android
+	https://github.com/whatwg/meta-theme-color
+-->
+{% if themeColor %}
+	<meta name="theme-color" content="{{ themeColor }}">
+{% endif %}
+
+
+<!--
+Run as an app, remove location and status bars
+https://developer.chrome.com/multidevice/android/installtohomescreen
+-->
+<meta name="mobile-web-app-capable" content=yes>
+<meta name="apple-mobile-web-app-capable" content=yes>
+
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+	Hello, kitty world!
+{% endblock %}
+
+</html>

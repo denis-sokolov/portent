@@ -1,0 +1,26 @@
+a {
+	/**
+	 * Multi-line links have holes between lines.
+	 * Vertical padding removes those holes.
+	 * Bottom padding would interfere with our border-bottom.
+	 * http://artgorbunov.ru/bb/soviet/20121108/
+	 */
+	padding-top: 0.3em;
+}
+
+/**
+ * Fix the jumping scrollbar
+ * Better than a usual overflow-y: scroll
+ * http://aykevl.nl/2014/09/fix-jumping-scrollbar
+ */
+@media screen and (min-width: 960px) {
+	html {
+		margin-left: calc(100vw - 100%);
+		margin-right: 0;
+	}
+}
+
+// Default tab-size is 8, which is ridiculous
+body {
+	tab-size: 4;
+}

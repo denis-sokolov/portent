@@ -1,0 +1,25 @@
+textarea {
+	// Forbid horizontal resizing, that always screws with the layout
+	resize: vertical;
+
+	// IE has a vertical scrollbar by default
+	overflow: auto;
+}
+
+// Align checkboxes and radios with their label
+input[type="checkbox"],
+input[type="radio"] { vertical-align: text-bottom; }
+
+button,
+input[type="button"],
+input[type="image"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"],
+select,
+label { cursor: pointer; }
+
+:disabled {
+	cursor: default;
+	cursor: not-allowed;
+}

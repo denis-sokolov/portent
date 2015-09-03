@@ -1,0 +1,25 @@
+@media print {
+	*, *::before, *::after,
+	*::first-letter, *::first-line {
+		background: transparent !important;
+		box-shadow: none !important;
+		color: #000 !important;
+		text-shadow: none !important;
+	}
+
+	a, a:visited {
+		text-decoration: underline;
+	}
+
+	a[href]::after {
+		content: " (" attr(href) ")";
+	}
+
+	abbr[title]::after {
+		content: " (" attr(title) ")";
+	}
+
+	h1, h2, h3 {
+		page-break-after: avoid;
+	}
+}

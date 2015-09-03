@@ -1,0 +1,33 @@
+abbr {
+	font-size: 85%;
+	letter-spacing: 0.1em
+}
+
+p {
+	hanging-punctuation: first allow-end last;
+	hyphens: auto;
+
+	/**
+	 * Max line width should be 50-75 characters, which is 21-30 em
+	 * http://www.maxdesign.com.au/2013/05/25/ideal-line-length-in-ems/
+	 */
+	max-width: 30em;
+	margin-bottom: 0;
+
+	@media screen and (min-width: 20em) {
+		/**
+		 * The following ensures a certain minimum width of a paragraph,
+		 * to avoid orphan words next to a big floating image.
+		 * http://css-tricks.com/minimum-paragraph-widths/
+		 */
+		&::before {
+			content: "";
+			width: 10em;
+			display: block;
+			overflow: hidden;
+		}
+	}
+}
+
+q:lang(lt) { quotes: "„" "“"; }
+q:lang(ru) { quotes: "«" "»" "„" "“"; }
