@@ -1,19 +1,13 @@
 'use strict';
 
-var walkdir = require('../util/walkdir');
+var getFiles = require('../util/get-files');
 
 module.exports = function(projectDirectory){
 	var pagesDirectory = projectDirectory + '/pages';
-	return walkdir(pagesDirectory).then(function(files){
-		return files
+	return getFiles(pagesDirectory, ['html']).then(function(paths){
+		return paths
 			// Make paths relative to /pages
 			.map(function(path){ return path.substring(pagesDirectory.length); })
-
-			// Skip _pages
-			.filter(function(path){ return path.indexOf('/_') === -1; })
-
-			// Skip non html files
-			.filter(function(path){ return path.match(/\.html$/); })
 
 			// Remove .html extension
 			.map(function(path){ return path.substring(0, path.length - 5); });
