@@ -24,6 +24,11 @@ module.exports = function(directory, plugins){
 		if (req.path.indexOf('/_') > -1)
 			return next();
 
+		// Allegedly there may be cases where IE disregards
+		// the meta tag on non-standard ports, which is exactly where
+		// development happens.
+		res.set('X-UA-Compatible', 'IE=edge');
+
 		Promise.denodeify(res.render.bind(res))(templates.file(req.path))
 			.then(function(html){
 				return cheerio.load(html);
