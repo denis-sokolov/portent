@@ -35,7 +35,9 @@ module.exports = function(directories, extensions){
 	if (typeof directories === 'string')
 		directories = [directories];
 	return Promise.all(directories.map(function(directory){
-		return Promise.denodeify(glob)(directory + '/**/*' + extensionsGlob(extensions));
+		return Promise.denodeify(glob)(directory + '/**/*' + extensionsGlob(extensions), {
+			nodir: true
+		});
 	})).then(function(filesDeep){
 		return Array.prototype.concat.apply([], filesDeep);
 	}).then(function(files){
