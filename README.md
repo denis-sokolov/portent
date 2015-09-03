@@ -26,7 +26,7 @@ The website project directory should look as follows:
 ```
 /css
   header.css
-  typography.css
+  typography.less
 /img
   p1.jpg
   logo.png
@@ -51,6 +51,11 @@ Anywhere in the tree files and directories prefixed with an `_` are ignored.
 All CSS are combined and included in your HTML.
 
 To refer to images, use `url('img/...')` syntax regardless of what's the depth of CSS file in the directory tree.
+
+If a file ends in `.less`, it will be processed with LESS. Take care to ensure your submodules are hidden behind an `_` name, or else they will be included twice.
+
+#### Portent-base
+Portent includes a base stylesheet that promotes some best practices. Import it using `@import 'portent/base.less'`.
 
 ### JS
 All JavaScript files are combined and included in your HTML.

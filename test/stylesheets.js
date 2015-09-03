@@ -51,3 +51,9 @@ lib('CSS has far away Expires header', function(env){
 	});
 }, {build: false});
 
+test('only imports LESS with an explicit import, not always', function(t, css){
+	t.ok(css.indexOf('padding-top: 13') < css.indexOf('resize: vertical'),
+		'does not prepend base LESS');
+	t.ok(css.indexOf('resize: vertical') < css.indexOf('color: red'),
+		'does not append base LESS');
+});

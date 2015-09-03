@@ -15,12 +15,14 @@ var getFiles = require('./util/get-files');
 module.exports = function(directory){
 	var get = function(){
 		return getFiles(
-			[__dirname + '/css', directory + '/css'],
+			[directory + '/css'],
 			['less', 'css']
 		).then(function(files){
 			return gulpStreamToString(gulp.src(files)
 				.pipe(gulpSourcemaps.init())
-				.pipe(gulpIf(/\.less$/, gulpLess()))
+				.pipe(gulpIf(/\.less$/, gulpLess({
+					paths: [__dirname + '/css']
+				})))
 				.pipe(gulpConcat('compiled.css'))
 				.pipe(gulpAutoprefixer())
 				.pipe(gulpSourcemaps.write()));
