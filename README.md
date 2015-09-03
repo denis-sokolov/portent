@@ -38,6 +38,8 @@ The website project directory should look as follows:
   index.html
   about.html
   _fragment.html
+/static
+  other-public-files.txt
 ```
 
 Anywhere in the tree files and directories prefixed with an `_` are ignored.
@@ -85,6 +87,9 @@ Portent includes a base template for HTML websites that promotes best practices 
 If your website is non-English, make sure to set the language with a `{% set lang='XX' %}` anywhere in the template.
 
 Set a theme color for your website to use whenever it is possible to customize browser chrome with `{% set themeColor='blue' %}`. Any CSS color or syntax works.
+
+### Static
+Everything in `/static` will become part of your website. Use this to host fonts, videos, other resources of the sort.
 
 ## Usage
 

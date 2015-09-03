@@ -12,6 +12,7 @@ var base = require('./base');
 var images = require('./images');
 var scripts = require('./scripts');
 var server = require('./server');
+var statics = require('./statics');
 var stylesheets = require('./stylesheets');
 
 module.exports = function(directory){
@@ -23,12 +24,14 @@ module.exports = function(directory){
 			images(directory),
 			scripts(directory),
 			stylesheets(directory),
+			statics(directory),
 			base()
 		],
 		build: [
 			images(directory),
 			scripts(directory),
-			stylesheets(directory)
+			stylesheets(directory),
+			statics(directory)
 		]
 	};
 
