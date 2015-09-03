@@ -20,16 +20,22 @@ var sortCallback = function(directories){
 	};
 };
 
+var extensionsGlob = function(extensions){
+	if (!extensions || extensions.length === 0)
+		return '';
+	if (typeof extensions === 'string')
+		return '.' + extensions;
+	// {foo} in glob does not match "foo"
+	if (extensions.length === 1)
+		return '.' + extensions[0];
+	return '.{' + extensions.join(',') + '}';
+};
+
 module.exports = function(directories, extensions){
 	if (typeof directories === 'string')
 		directories = [directories];
-	if (typeof extensions === 'string')
-		extensions = [extensions];
-
 	return Promise.all(directories.map(function(directory){
-		// {foo} in glob does not match "foo"
-		var extensionsGlob = extensions.length > 1 ? '{' + extensions.join(',') + '}' : extensions[0];
-		return Promise.denodeify(glob)(directory + '/**/*.' + extensionsGlob);
+		return Promise.denodeify(glob)(directory + '/**/*' + extensionsGlob(extensions));
 	})).then(function(filesDeep){
 		return Array.prototype.concat.apply([], filesDeep);
 	}).then(function(files){
