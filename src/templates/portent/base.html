@@ -15,6 +15,7 @@
 -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+
 <!--
 	initial-scale=1 fixes some browsers that would otherwise not reflow
 	on rotating to landscape
@@ -24,9 +25,12 @@
 <!--
 	Theme color is used by Chrome on Android
 	https://github.com/whatwg/meta-theme-color
+	The msapplication-navbutton-color is possibly used by not only IE,
+	but also later ones.
 -->
 {% if themeColor %}
 	<meta name="theme-color" content="{{ themeColor }}">
+	<meta name="msapplication-navbutton-color" content="{{ themeColor }}">
 {% endif %}
 
 
