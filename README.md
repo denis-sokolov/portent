@@ -93,6 +93,9 @@ If your website is non-English, make sure to set the language with a `{% set lan
 
 Set a theme color for your website to use whenever it is possible to customize browser chrome with `{% set themeColor='blue' %}`. Any CSS color or syntax works.
 
+### Images
+Images in `/img` will become part of your website.
+
 ### Static
 Everything in `/static` will become part of your website. Use this to host fonts, videos, other resources of the sort.
 
