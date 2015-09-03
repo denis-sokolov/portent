@@ -2,6 +2,7 @@
   "name": "portent",
   "version": "1.0.0",
   "description": "Simple best-practices static website generator",
+  "bin": "src/bin.js",
   "main": "src/index.js",
   "scripts": {
     "ci": "npm run lint && npm run _raw_tests",
