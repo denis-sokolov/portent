@@ -16,7 +16,7 @@ module.exports = function(directory){
 		middleware: function(req, res, next){
 			if (!req.path.match(/^\/img\//))
 				return next();
-			var filepath = directory + req.path;
+			var filepath = directory + decodeURIComponent(req.path);
 			filesPromise.then(function(files){
 				if (files.indexOf(filepath) === -1)
 					return next();
