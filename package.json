@@ -4,10 +4,11 @@
   "description": "Simple best-practices static website generator",
   "main": "src/index.js",
   "scripts": {
-    "ci": "npm run lint && npm run test",
+    "ci": "npm run lint && npm run _raw_tests",
     "lint": "eslint src test",
-    "test": "tape test/*.js | tap-spec",
-    "watch-tests": "watchy --watch src,test -- npm test"
+    "test": "npm run _raw_tests | tap-spec",
+    "watch-tests": "watchy --watch src,test -- npm test",
+    "_raw_tests": "tape test/*.js"
   },
   "license": "ISC",
   "dependencies": {
