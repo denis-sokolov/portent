@@ -1,5 +1,11 @@
 # Portent
 
+[![Build Status](https://travis-ci.org/denis-sokolov/portent.svg?branch=master)](https://travis-ci.org/denis-sokolov/portent)
+[![Dependency Status](https://gemnasium.com/denis-sokolov/portent.svg)](https://gemnasium.com/denis-sokolov/portent)
+[![Codacy Badge](https://api.codacy.com/project/badge/5386b47284f34b5f85cfca06976f4cdc)](https://www.codacy.com/app/denis-sokolov/portent)
+[![Code Climate](https://codeclimate.com/github/denis-sokolov/portent/badges/gpa.svg)](https://codeclimate.com/github/denis-sokolov/portent)
+[![bitHound Score](https://app.bithound.io/denis-sokolov/portent/badges/score.svg)](http://app.bithound.io/denis-sokolov/portent)
+
 Simple best-practices static website generator.
 
 ## Quick start
