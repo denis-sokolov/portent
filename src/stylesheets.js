@@ -29,11 +29,9 @@ module.exports = function(directory){
 		});
 	};
 
-	var hash = function(){ return get().then(md5); };
-
 	var getPaths = function(){
-		return hash().then(function(h){
-			return ['/styles.' + h + '.css'];
+		return get().then(function(css){
+			return ['/styles.' + md5(css) + '.css'];
 		});
 	};
 
