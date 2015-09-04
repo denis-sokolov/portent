@@ -1,7 +1,9 @@
 'use strict';
 
 var assert = require('assert');
+var fs = require('fs');
 
+var _ = require('lodash');
 var cheerio = require('cheerio');
 var memoize = require('memoizee');
 var tape = require('tape');
@@ -14,10 +16,15 @@ var serverEnv = require('./serverEnv');
 // The path includes "/../" and a directory is named with an underscore
 // to make sure these things do not interfere with the code behavior.
 // In other words, it's part of the test.
-var fixtureDir = __dirname + '/../_fixture';
+var fixturesDir = __dirname + '/../_fixtures';
 
-var server = serverEnv(fixtureDir).then(memoize);
-var build = buildEnv(fixtureDir).then(memoize);
+var fixtures = _.object(fs.readdirSync(fixturesDir).map(function(name){
+	var dir = fixturesDir + '/' + name;
+	return [name, {
+		server: serverEnv(dir).then(memoize),
+		build: buildEnv(dir).then(memoize)
+	}];
+}));
 
 var api = function(name, testPath, opts){
 	if (typeof testPath === 'string') {
@@ -41,6 +48,7 @@ var api = function(name, testPath, opts){
 
 	assert.equal(typeof testPath, 'function');
 	opts = opts || {};
+	opts.fixture = opts.fixture || 'main';
 	opts.server = 'server' in opts ? opts.server : true;
 	opts.build = 'build' in opts ? opts.build : true;
 	var callback = testPath;
@@ -65,12 +73,12 @@ var api = function(name, testPath, opts){
 
 	if (opts.server)
 		tape(name + ' (server)', function(t){
-			return commonTest(server, t, callback);
+			return commonTest(fixtures[opts.fixture].server, t, callback);
 		});
 
 	if (opts.build)
 		tape(name + ' (build)', function(t){
-			return commonTest(build, t, callback);
+			return commonTest(fixtures[opts.fixture].build, t, callback);
 		});
 };
 
@@ -84,11 +92,5 @@ api.hasExpires = function(test, response){
 };
 
 api.skip = tape.skip;
-
-api.raw = function(name, cb){
-	tape(name, function(t){
-		cb(t, portent(fixtureDir));
-	});
-};
 
 module.exports = api;

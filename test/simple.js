@@ -2,11 +2,6 @@
 
 var test = require('./lib');
 
-test.raw('returns a server', function(t, app){
-	t.equal(typeof app.server.listen, 'function');
-	t.end();
-});
-
 test('simple html', '/', {
 	contains: '<p>Hello, world!</p>'
 });
