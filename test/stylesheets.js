@@ -57,3 +57,7 @@ test('only imports LESS with an explicit import, not always', function(t, css){
 	t.ok(css.indexOf('resize: vertical') < css.indexOf('color: red'),
 		'does not append base LESS');
 });
+
+lib('injects the <link> tag not in <title>', '/title', {
+	contains: '<title>Document</title>'
+});

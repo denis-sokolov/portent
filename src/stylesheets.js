@@ -59,7 +59,7 @@ module.exports = function(directory){
 				if ($('head').length > 0)
 					$('head').append(tags);
 				else if ($('meta, title').length > 0)
-					$('meta, title').last().append(tags);
+					$('meta, title').last().after(tags);
 				else
 					$.root().prepend(tags);
 			});
