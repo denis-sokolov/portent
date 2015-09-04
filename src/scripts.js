@@ -42,6 +42,8 @@ module.exports = function(directory){
 
 	var getPaths = function(){
 		return get().then(function(js){
+			if (!js)
+				return [];
 			return ['/scripts.' + md5(js) + '.js'];
 		});
 	};
@@ -50,9 +52,9 @@ module.exports = function(directory){
 		middleware: function(req, res, next){
 			if (!req.path.match(/^\/scripts\..+\.js$/))
 				return next();
-			res.type('application/javascript');
-			res.set('Expires', expires());
 			get().then(function(generatedJs){
+				res.type('application/javascript');
+				res.set('Expires', expires());
 				res.send(generatedJs);
 			}).then(null, next);
 		},

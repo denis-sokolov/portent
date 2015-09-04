@@ -31,6 +31,8 @@ module.exports = function(directory){
 
 	var getPaths = function(){
 		return get().then(function(css){
+			if (!css)
+				return [];
 			return ['/styles.' + md5(css) + '.css'];
 		});
 	};
