@@ -13,8 +13,8 @@ test('rewrites <base> in development', '/', {
 });
 
 test('does not leave old <base> in development', '/', {
-	doesNotContain: '<base href="http://example.com/',
-	server: false
+	build: false,
+	doesNotContain: '<base href="http://example.com/'
 });
 
 test('keeps <base> in production', '/', {

@@ -39,7 +39,7 @@ var api = function(name, testPath, opts){
 				if (opts.contains)
 					env.test.ok(res.text.indexOf(opts.contains) > -1, 'contains correct body');
 				if (opts.doesNotContain)
-					env.test.equal(res.text.indexOf(opts.contains), -1, 'contains correct body');
+					env.test.equal(res.text.indexOf(opts.doesNotContain), -1, 'contains correct body');
 			});
 		}, opts);
 	}
