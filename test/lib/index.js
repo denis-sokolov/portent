@@ -8,8 +8,6 @@ var cheerio = require('cheerio');
 var memoize = require('memoizee');
 var tape = require('tape');
 
-var portent = require('../..');
-
 var buildEnv = require('./buildEnv');
 var serverEnv = require('./serverEnv');
 
