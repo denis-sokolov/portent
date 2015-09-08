@@ -44,6 +44,8 @@ The website project directory should look as follows:
 
 Anywhere in the tree files and directories prefixed with an `_` are ignored.
 
+The structure above will produce a website that responds to URLs `/` and `/about`.
+
 The development server will add a `<base>` tag, thus it is recommended to refer to files and URLs relative to the root of the project, without using a leading slash. For example, to link from `projects/foo` to `about`, use a string `about`, not `../about`.
 
 ### Page structure
