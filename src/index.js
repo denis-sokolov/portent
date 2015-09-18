@@ -4,6 +4,7 @@ var fs = require('fs');
 
 var frozen = require('frozen-express');
 var gulp = require('gulp');
+var Promise = require('promise');
 var streamCombiner = require('stream-combiner');
 var streamToPromise = require('stream-to-promise');
 

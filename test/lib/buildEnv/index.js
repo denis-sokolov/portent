@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var Promise = require('promise');
 
 var portent = require('../../..');
 
