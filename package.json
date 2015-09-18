@@ -1,9 +1,9 @@
 {
   "name": "portent",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Simple best-practices static website generator",
   "engines": {
-    "node":">=0.12.0"
+    "node": ">=0.12.0"
   },
   "bin": "src/bin.js",
   "main": "src/index.js",
