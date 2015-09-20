@@ -35,7 +35,6 @@
     "promise": "^7.0.4",
     "sort-stream2": "^1.0.0",
     "stream-combiner": "^0.2.2",
-    "stream-to-promise": "^1.0.4",
     "through2": "^2.0.0"
   },
   "devDependencies": {
