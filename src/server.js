@@ -1,19 +1,12 @@
 'use strict';
 
-var cheerio = require('cheerio');
-var nunjucks = require('nunjucks');
 var express = require('express');
-var Promise = require('promise');
 
-var templates = require('./templates');
+var renderFactory = require('./render');
 
 module.exports = function(directory, plugins){
 	var app = express();
-
-	nunjucks.configure(templates.paths(directory), {
-		express: app,
-		noCache: true
-	});
+	var render = renderFactory(app, directory, plugins);
 
 	plugins.forEach(function(plugin){
 		if (plugin.middleware)
@@ -29,21 +22,12 @@ module.exports = function(directory, plugins){
 		// development happens.
 		res.set('X-UA-Compatible', 'IE=edge');
 
-		Promise.denodeify(res.render.bind(res))(templates.file(req.path))
-			.then(function(html){
-				return cheerio.load(html);
-			}).then(function($){
-				return Promise.all(plugins.map(function(plugin){
-					if (plugin.modifyHtml)
-						return plugin.modifyHtml(req, $);
-				})).then(function(){
-					return $.html();
-				});
-			}).then(res.send.bind(res), function(err){
-				if (err.message.indexOf('not found') > -1)
-					return next();
-				next();
-			});
+		render(req, res, req.path, next);
+	});
+
+	app.use(function(req, res, next) {
+		res.status(404);
+		render.error(req, res, 404, next);
 	});
 
 	return app;

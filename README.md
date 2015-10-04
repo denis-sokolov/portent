@@ -38,6 +38,8 @@ The website project directory should look as follows:
   index.html
   about.html
   _fragment.html
+/errors
+  404.html
 /static
   other-public-files.txt
 ```
@@ -50,6 +52,9 @@ The development server will add a `<base>` tag, thus it is recommended to refer 
 
 ### Page structure
 `pages` directory contains actual routes for pages in the website. Every `html` file inside is a single URL route.
+
+### Errors
+`errors` directory contains templates for HTTP errors. Currently supported is the 404 template.
 
 ### CSS
 All CSS are combined and included in your HTML.
