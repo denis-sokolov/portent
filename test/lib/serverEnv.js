@@ -16,6 +16,7 @@ module.exports = function(fixtureDir){
 						return reject(err);
 					resolve({
 						code: res.status,
+						headers: res.headers,
 						text: res.text,
 						response: res,
 						type: res.type

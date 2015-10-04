@@ -16,12 +16,6 @@ module.exports = function(directory, plugins){
 	app.get(/.*/, function(req, res, next) {
 		if (req.path.indexOf('/_') > -1)
 			return next();
-
-		// Allegedly there may be cases where IE disregards
-		// the meta tag on non-standard ports, which is exactly where
-		// development happens.
-		res.set('X-UA-Compatible', 'IE=edge');
-
 		render(req, res, req.path, next);
 	});
 
