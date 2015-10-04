@@ -38,7 +38,7 @@ module.exports = function(app, directory, plugins){
 			}).then(res.send.bind(res), function(err){
 				if (err.message.indexOf('not found') > -1)
 					return next();
-				next();
+				next(err);
 			});
 	};
 
