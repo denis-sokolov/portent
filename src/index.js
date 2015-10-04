@@ -46,10 +46,15 @@ module.exports = function(directory){
 		build: function(destinationDirectory){
 			var app = server(directory, plugins.build);
 
-			return Promise.all(plugins.build.map(function(plugin){
-				if (plugin.paths)
-					return plugin.paths();
-			}).concat(detectUrls(directory))).then(function(deepUrls){
+			var paths = Array.prototype.concat.apply([], [
+				plugins.build.map(function(plugin){
+					if (plugin.paths)
+						return plugin.paths();
+				}),
+				detectUrls(directory)
+			]);
+
+			return Promise.all(paths).then(function(deepUrls){
 				var urls = [].concat.apply([], deepUrls);
 				return streamEndToPromise(streamCombiner(
 					frozen(app, { urls: urls }),
