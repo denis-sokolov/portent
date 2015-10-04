@@ -1,5 +1,6 @@
 'use strict';
 
+var fs = require('fs');
 var path = require('path');
 
 var cheerio = require('cheerio');
@@ -48,8 +49,13 @@ module.exports = function(app, directory, plugins){
 	};
 
 	api.error = function(req, res, code, next){
-		registerDirs([path.join(directory, 'errors')].concat(defaultDirs));
-		f(req, res, templates.file('/' + String(code)), next);
+		var errorTemplateDirectory = path.join(directory, 'errors');
+		fs.stat(path.join(errorTemplateDirectory, String(code) + '.html'), function(err){
+			if (err)
+				return next();
+			registerDirs([errorTemplateDirectory].concat(defaultDirs));
+			f(req, res, templates.file('/' + String(code)), next);
+		});
 	};
 
 	return api;
