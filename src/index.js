@@ -7,9 +7,9 @@ var gulp = require('gulp');
 var Promise = require('promise');
 var streamCombiner = require('stream-combiner');
 
-var detectUrls = require('./detectUrls');
 var base = require('./base');
 var images = require('./images');
+var pages = require('./pages');
 var scripts = require('./scripts');
 var server = require('./server');
 var statics = require('./statics');
@@ -42,17 +42,17 @@ module.exports = function(directory){
 		]
 	};
 
+	plugins.server.push(pages(directory, plugins.server));
+	plugins.build.push(pages(directory, plugins.build));
+
 	return {
 		build: function(destinationDirectory){
 			var app = server(directory, plugins.build);
 
-			var paths = Array.prototype.concat.apply([], [
-				plugins.build.map(function(plugin){
-					if (plugin.paths)
-						return plugin.paths();
-				}),
-				detectUrls(directory)
-			]);
+			var paths = plugins.build.map(function(plugin){
+				if (plugin.paths)
+					return plugin.paths();
+			});
 
 			return Promise.all(paths).then(function(deepUrls){
 				var urls = [].concat.apply([], deepUrls);
