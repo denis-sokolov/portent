@@ -36,7 +36,7 @@ var api = function(name, testPath, opts){
 					env.test.equal(res.code, opts.status, 'correct status code');
 				if (res.type)
 					env.test.equal(res.type, opts.type, 'correct type');
-				if (opts.type === 'text/html' && res.headers)
+				if (opts.type === 'text/html' && res.headers && !opts.canBeDefault)
 					env.test.equal(res.headers['x-ua-compatible'], 'IE=edge', 'Has IE header');
 				if (opts.contains)
 					env.test.ok(res.text.indexOf(opts.contains) > -1, 'contains correct body');

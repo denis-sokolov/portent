@@ -12,5 +12,6 @@ test('does not use a regular page for 404 page', '/-nonexisting', {
 	build: false,
 	fixture: 'mixup',
 	status: 404,
+	canBeDefault: true,
 	doesNotContain: 'A regular page'
 });
