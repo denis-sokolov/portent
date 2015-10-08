@@ -9,12 +9,11 @@ var nunjucks = require('nunjucks');
 
 var templates = require('./templates');
 
-module.exports = function(app, directory, plugins){
+module.exports = function(directory, plugins){
 	var defaultDirs = templates.paths(directory);
 
 	var registerDirs = function(paths){
 		nunjucks.configure(paths, {
-			express: app,
 			noCache: true
 		});
 	};
@@ -26,7 +25,7 @@ module.exports = function(app, directory, plugins){
 		// development happens.
 		res.set('X-UA-Compatible', 'IE=edge');
 
-		return Promise.denodeify(res.render.bind(res))(requestPath)
+		return Promise.denodeify(nunjucks.render)(requestPath)
 			.then(function(html){
 				return cheerio.load(html);
 			}).then(function($){

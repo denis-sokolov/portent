@@ -6,7 +6,7 @@ var renderFactory = require('./render');
 
 module.exports = function(directory, plugins){
 	var app = express();
-	var render = renderFactory(app, directory, plugins);
+	var render = renderFactory(directory, plugins);
 
 	plugins.forEach(function(plugin){
 		if (plugin.middleware)
