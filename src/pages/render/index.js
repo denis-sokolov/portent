@@ -33,11 +33,7 @@ module.exports = function(directory, plugins){
 				})).then(function(){
 					return $.html();
 				});
-			}).then(res.send.bind(res), function(err){
-				if (err.message.indexOf('not found') > -1)
-					return next();
-				next(err);
-			});
+			}).then(res.send.bind(res), next);
 	};
 
 	var api = function(req, res, requestPath, next){

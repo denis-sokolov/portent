@@ -16,4 +16,6 @@ test('other pages work', '/about', {
 
 test('does not return _ pages', '/_base', 404);
 
-
+test('subdir index works', '/subdir/', {
+	contains: 'Subdirectory index'
+});

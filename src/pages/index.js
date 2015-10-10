@@ -17,7 +17,9 @@ module.exports = function(projectDirectory, plugins, opts){
 			// Remove .html extension
 			.map(function(path){ return path.substring(0, path.length - 5); });
 	}).then(function(paths){
-		return paths.concat(['/']);
+		return paths.map(function(path){
+			return path.replace(/\/index$/, '/');
+		});
 	});
 
 	return {
