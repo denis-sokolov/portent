@@ -1,6 +1,6 @@
 {
   "name": "portent",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Simple best-practices static website generator",
   "engines": {
     "node": ">=0.12.0"
