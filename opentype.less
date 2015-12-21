@@ -1,0 +1,52 @@
+/**
+ * Enable OpenType features
+ * http://practice.typekit.com/lesson/caring-about-opentype-features/
+ *
+ * font-variant allows more readable control,
+ * but font-feature-settings is better supported.
+ */
+
+body {
+	font-kerning: normal;
+	font-variant-ligatures: common-ligatures, contextual;
+	font-variant-numeric: oldstyle-nums, proportional-nums;
+	font-feature-settings: 'kern', 'liga', 'clig', 'calt', 'onum', 'pnum';
+}
+
+abbr {
+	font-variant-caps: all-small-caps;
+	font-feature-settings: 'kern', 'liga', 'clig', 'calt', 'onum', 'pnum',
+		'smcp', 'c2sc';
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-variant-ligatures: common-ligatures, contextual, discretionary-ligatures;
+	font-feature-settings: 'kern', 'liga', 'clig', 'calt', 'onum', 'pnum',
+		'dlig', 'swsh', 'ss04', 'salt';
+}
+
+td {
+	font-variant-numeric: lining-nums, tabular-nums, diagonal-fractions;
+	font-feature-settings: 'kern', 'liga', 'clig', 'calt',
+		'lnum', 'tnum', 'frac';
+}
+
+.fraction {
+	font-kerning: normal;
+	font-variant-ligatures: common-ligatures, contextual;
+	font-variant-numeric: diagonal-fractions;
+	-moz-font-feature-settings: "kern", "liga", "clig", "calt", "frac";
+	-ms-font-feature-settings: "kern", "liga", "clig", "calt", "frac";
+	-webkit-font-feature-settings: "kern", "liga", "clig", "calt", "frac";
+	font-feature-settings: "kern", "liga", "clig", "calt", "frac";
+}
+.fn {
+	font-kerning: normal;
+	font-variant-ligatures: common-ligatures, contextual;
+	font-variant-position: sub;
+	-moz-font-feature-settings: "kern", "liga", "clig", "calt", "subs";
+	-ms-font-feature-settings: "kern", "liga", "clig", "calt", "subs";
+	-webkit-font-feature-settings: "kern", "liga", "clig", "calt", "subs";
+	font-feature-settings: "kern", "liga", "clig", "calt", "subs";
+}
+}
