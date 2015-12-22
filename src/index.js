@@ -11,6 +11,7 @@ var base = require('./base');
 var images = require('./images');
 var pages = require('./pages');
 var scripts = require('./scripts');
+var selfLinks = require('./self-links');
 var server = require('./server');
 var statics = require('./statics');
 var stylesheets = require('./stylesheets');
@@ -32,13 +33,15 @@ module.exports = function(directory){
 			scripts(directory),
 			stylesheets(directory),
 			statics(directory),
-			base()
+			base(),
+			selfLinks()
 		],
 		build: [
 			images(directory),
 			scripts(directory),
 			stylesheets(directory),
-			statics(directory)
+			statics(directory),
+			selfLinks()
 		]
 	};
 

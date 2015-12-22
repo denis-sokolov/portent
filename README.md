@@ -48,10 +48,10 @@ Anywhere in the tree files and directories prefixed with an `_` are ignored.
 
 The structure above will produce a website that responds to URLs `/` and `/about`.
 
-The development server will add a `<base>` tag, thus it is recommended to refer to files and URLs relative to the root of the project, without using a leading slash. For example, to link from `projects/foo` to `about`, use a string `about`, not `../about`.
-
 ### Page structure
 `pages` directory contains actual routes for pages in the website. Every `html` file inside is a single URL route.
+
+It is recommended to include a <base> tag in every template and refer to files and URLs relative to the root of the project, without using a leading slash. For example, to link from `projects/foo` to `about`, use a string `about`, not `../about`. A workflow different from this has undefined behavior.
 
 ### Errors
 `errors` directory contains templates for HTTP errors. Currently supported is the 404 template.
