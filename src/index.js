@@ -52,7 +52,7 @@ module.exports = function(directory){
 			var paths = plugins.build.map(function(plugin){
 				if (plugin.paths)
 					return plugin.paths();
-			});
+			}).filter(function(x){ return x; });
 
 			return Promise.all(paths).then(function(deepUrls){
 				var urls = [].concat.apply([], deepUrls);
