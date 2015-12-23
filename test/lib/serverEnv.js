@@ -10,7 +10,7 @@ module.exports = function(fixtureDir){
 	var request = function(requestPath){
 		return new Promise(function(resolve, reject){
 			supertest(server)
-				.get(requestPath)
+				.get(encodeURI(requestPath))
 				.end(function(err, res){
 					if (err)
 						return reject(err);

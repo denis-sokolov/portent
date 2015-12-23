@@ -27,7 +27,9 @@ module.exports = function(directory, plugins){
 
 		return Promise.denodeify(nunjucks.render)(requestPath)
 			.then(function(html){
-				return cheerio.load(html);
+				return cheerio.load(html, {
+					decodeEntities: false
+				});
 			}).then(function($){
 				return Promise.all(plugins.map(function(plugin){
 					if (plugin.modifyHtml)

@@ -21,9 +21,10 @@ module.exports = function(projectDirectory, plugins){
 
 	return {
 		middleware: function(req, res, next){
+			var path = decodeURI(req.path);
 			pages.then(function(paths){
-				if (paths.indexOf(req.path) > -1)
-					return render(req, res, req.path, next);
+				if (paths.indexOf(path) > -1)
+					return render(req, res, path, next);
 				res.status(404);
 				render.error(req, res, 404, next);
 			}).done();
