@@ -69,6 +69,8 @@ Portent includes a base stylesheet that promotes some best practices. Import it 
 ### JS
 All JavaScript files are combined and included in your HTML.
 
+If a file ends in `.min.js`, it will not be processed, but included as is in a separate bundle and will run before your regular scripts.
+
 If a file ends in `.cjs.js`, it will be Browserified. Take care to ensure your submodules are hidden behind an `_` name, or else they will be included twice.
 
 ### HTML
