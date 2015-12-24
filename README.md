@@ -49,7 +49,7 @@ Anywhere in the tree files and directories prefixed with an `_` are ignored.
 The structure above will produce a website that responds to URLs `/` and `/about`.
 
 ### Page structure
-`pages` directory contains actual routes for pages in the website. Every `html` file inside is a single URL route.
+`pages` directory contains actual routes for pages in the website. Every `html` file inside is a single URL route. Pages with Unicode names do not work perfectly, but if they work for you, great.
 
 It is recommended to include a <base> tag in every template and refer to files and URLs relative to the root of the project, without using a leading slash. For example, to link from `projects/foo` to `about`, use a string `about`, not `../about`. A workflow different from this has undefined behavior.
 
