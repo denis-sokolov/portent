@@ -1,8 +1,5 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-
 var cheerio = require('cheerio');
 var Promise = require('promise');
 var nunjucks = require('nunjucks');
@@ -50,13 +47,12 @@ module.exports = function(directory, plugins){
 	};
 
 	api.error = function(req, res, code, next){
-		var errorTemplateDirectory = path.join(directory, 'errors');
-		fs.stat(path.join(errorTemplateDirectory, String(code) + '.html'), function(err){
-			if (err)
+		templates.errorAvailable(code).then(function(isAvailable){
+			if (!isAvailable)
 				return next();
-			registerDirs([errorTemplateDirectory].concat(templates.defaultDirs()));
-			f(req, res, templates.file('/' + String(code)), next);
-		});
+			registerDirs(templates.errorDirs());
+			f(req, res, templates.errorPath(code), next);
+		}).then(null, next);
 	};
 
 	return api;
