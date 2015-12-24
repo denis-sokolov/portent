@@ -16,7 +16,6 @@ module.exports = function(directory, plugins){
 	};
 
 	var f = function(req, res, requestPath, next){
-
 		// Allegedly there may be cases where IE disregards
 		// the meta tag on non-standard ports, which is exactly where
 		// development happens.
