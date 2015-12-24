@@ -4,7 +4,8 @@ var getFiles = require('../util/get-files');
 
 var renderFactory = require('./render');
 
-module.exports = function(projectDirectory, plugins){
+module.exports = function(projectDirectory, plugins, opts){
+	opts = opts || {};
 	var render = renderFactory(projectDirectory, plugins);
 
 	var pagesDirectory = projectDirectory + '/pages';
@@ -25,12 +26,23 @@ module.exports = function(projectDirectory, plugins){
 			pages.then(function(paths){
 				if (paths.indexOf(path) > -1)
 					return render(req, res, path, next);
+				if (opts.serveErrors && path.match(/^\/\.\d{3}$/))
+					return render.error(req, res, path.substr(2), next);
 				res.status(404);
 				render.error(req, res, 404, next);
 			}).done();
 		},
 		paths: function(){
-			return pages;
+			return Promise.all([
+				render.errorAvailable(404),
+				pages
+			]).then(function(res){
+				var isError404Available = res[0];
+				var foundPages = res[1];
+				if (isError404Available)
+					return ['/.404'].concat(foundPages);
+				return foundPages;
+			});
 		}
 	};
 };

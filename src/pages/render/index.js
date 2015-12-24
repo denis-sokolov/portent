@@ -54,5 +54,9 @@ module.exports = function(directory, plugins){
 		}).then(null, next);
 	};
 
+	api.errorAvailable = function(code){
+		return templates.errorAvailable(code);
+	};
+
 	return api;
 };
