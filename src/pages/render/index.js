@@ -7,10 +7,10 @@ var cheerio = require('cheerio');
 var Promise = require('promise');
 var nunjucks = require('nunjucks');
 
-var templates = require('./templates');
+var templatesFactory = require('./templates');
 
 module.exports = function(directory, plugins){
-	var defaultDirs = templates.paths(directory);
+	var templates = templatesFactory(directory);
 
 	var registerDirs = function(paths){
 		nunjucks.configure(paths, {
@@ -45,7 +45,7 @@ module.exports = function(directory, plugins){
 	};
 
 	var api = function(req, res, requestPath, next){
-		registerDirs(defaultDirs);
+		registerDirs(templates.defaultDirs());
 		f(req, res, templates.file(requestPath), next);
 	};
 
@@ -54,7 +54,7 @@ module.exports = function(directory, plugins){
 		fs.stat(path.join(errorTemplateDirectory, String(code) + '.html'), function(err){
 			if (err)
 				return next();
-			registerDirs([errorTemplateDirectory].concat(defaultDirs));
+			registerDirs([errorTemplateDirectory].concat(templates.defaultDirs()));
 			f(req, res, templates.file('/' + String(code)), next);
 		});
 	};

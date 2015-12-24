@@ -1,22 +1,24 @@
 'use strict';
 
-module.exports = {
-	paths: function(directory){
-		return [
-			__dirname,
-			directory + '/pages'
-		];
-	},
+module.exports = function(directory){
+	return {
+		defaultDirs: function(){
+			return [
+				__dirname,
+				directory + '/pages'
+			];
+		},
 
-	file: function(path){
-		if (path.substr(path.length - 1) === '/')
-			path += 'index';
+		file: function(path){
+			if (path.substr(path.length - 1) === '/')
+				path += 'index';
 
-		// Remove leading slash
-		path = path.substring(1);
+			// Remove leading slash
+			path = path.substring(1);
 
-		path += '.html';
+			path += '.html';
 
-		return path;
+			return path;
+		}
 	}
 };
