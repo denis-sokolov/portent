@@ -42,13 +42,16 @@ module.exports = function(directory, plugins){
 		return f(req, templates.file(requestPath));
 	};
 
-	api.error = function(req, code, next){
+	api.error = function(req, code){
 		return templates.errorAvailable(code).then(function(isAvailable){
-			if (!isAvailable)
-				return next();
+			if (!isAvailable) {
+				var e = new Error('Template errors/' + code + '.html not found');
+				e.templateNotFound = true;
+				throw e;
+			}
 			registerDirs(templates.errorDirs());
 			return f(req, templates.errorPath(code));
-		}).then(null, next);
+		});
 	};
 
 	api.errorAvailable = function(code){

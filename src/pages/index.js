@@ -22,27 +22,47 @@ module.exports = function(projectDirectory, plugins, opts){
 		});
 	});
 
+	var send = function(res){
+		return function(html){
+			// Allegedly there may be cases where IE disregards
+			// the meta tag on non-standard ports, which is exactly where
+			// development happens.
+			res.set('X-UA-Compatible', 'IE=edge');
+
+			res.send(html);
+		};
+	};
+
+	var fail = function(next){
+		return function(err){
+			if (err.templateNotFound)
+				return next();
+			next(err);
+		};
+	};
+
 	return {
-		middleware: function(req, res, next){
-			var send = function(html){
-				// Allegedly there may be cases where IE disregards
-				// the meta tag on non-standard ports, which is exactly where
-				// development happens.
-				res.set('X-UA-Compatible', 'IE=edge');
-
-				res.send(html);
-			};
-
-			var path = decodeURI(req.path);
-			pages.then(function(paths){
-				if (paths.indexOf(path) > -1)
-					return render(req, path).then(send, next);
-				if (opts.serveErrors && path.match(/^\/\.\d{3}$/))
-					return render.error(req, path.substr(2), next).then(send);
+		middlewares: [
+			function(req, res, next){
+				var path = decodeURI(req.path);
+				if (path.indexOf('/_') > -1)
+					return next();
+				render(req, decodeURI(req.path))
+					.then(send(res), fail(next));
+			},
+			function(req, res, next){
+				var path = decodeURI(req.path);
+				if (!path.match(/^\/\.\d{3}$/))
+					return next();
+				render.error(req, path.substr(2))
+					.then(send(res), fail(next));
+			},
+			function(req, res, next){
 				res.status(404);
-				render.error(req, 404, next).then(send);
-			}).done();
-		},
+				render.error(req, 404)
+					.then(send(res), fail(next));
+			}
+		],
 		paths: function(){
 			return Promise.all([
 				render.errorAvailable(404),
