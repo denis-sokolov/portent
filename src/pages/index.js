@@ -3,10 +3,12 @@
 var getFiles = require('../util/get-files');
 
 var renderFactory = require('./render');
+var templatesFactory = require('./templates');
 
 module.exports = function(projectDirectory, plugins, opts){
 	opts = opts || {};
-	var render = renderFactory(projectDirectory, plugins);
+	var templates = templatesFactory(projectDirectory);
+	var render = renderFactory(templates, plugins);
 
 	var pagesDirectory = projectDirectory + '/pages';
 	var pages = getFiles(pagesDirectory, ['html']).then(function(paths){
@@ -65,7 +67,7 @@ module.exports = function(projectDirectory, plugins, opts){
 		],
 		paths: function(){
 			return Promise.all([
-				render.errorAvailable(404),
+				templates.errorAvailable(404),
 				pages
 			]).then(function(res){
 				var isError404Available = res[0];

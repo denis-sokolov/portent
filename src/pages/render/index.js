@@ -4,11 +4,7 @@ var cheerio = require('cheerio');
 var Promise = require('promise');
 var nunjucks = require('nunjucks');
 
-var templatesFactory = require('./templates');
-
-module.exports = function(directory, plugins){
-	var templates = templatesFactory(directory);
-
+module.exports = function(templates, plugins){
 	var registerDirs = function(paths){
 		nunjucks.configure(paths, {
 			noCache: true
@@ -52,10 +48,6 @@ module.exports = function(directory, plugins){
 			registerDirs(templates.errorDirs());
 			return f(req, templates.errorPath(code));
 		});
-	};
-
-	api.errorAvailable = function(code){
-		return templates.errorAvailable(code);
 	};
 
 	return api;
