@@ -24,14 +24,23 @@ module.exports = function(projectDirectory, plugins, opts){
 
 	return {
 		middleware: function(req, res, next){
+			var send = function(html){
+				// Allegedly there may be cases where IE disregards
+				// the meta tag on non-standard ports, which is exactly where
+				// development happens.
+				res.set('X-UA-Compatible', 'IE=edge');
+
+				res.send(html);
+			};
+
 			var path = decodeURI(req.path);
 			pages.then(function(paths){
 				if (paths.indexOf(path) > -1)
-					return render(req, res, path, next);
+					return render(req, path, next).then(send);
 				if (opts.serveErrors && path.match(/^\/\.\d{3}$/))
-					return render.error(req, res, path.substr(2), next);
+					return render.error(req, path.substr(2), next).then(send);
 				res.status(404);
-				render.error(req, res, 404, next);
+				render.error(req, 404, next).then(send);
 			}).done();
 		},
 		paths: function(){

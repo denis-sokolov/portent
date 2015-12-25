@@ -15,12 +15,7 @@ module.exports = function(directory, plugins){
 		});
 	};
 
-	var f = function(req, res, requestPath, next){
-		// Allegedly there may be cases where IE disregards
-		// the meta tag on non-standard ports, which is exactly where
-		// development happens.
-		res.set('X-UA-Compatible', 'IE=edge');
-
+	var f = function(req, requestPath, next){
 		return Promise.denodeify(nunjucks.render)(requestPath)
 			.then(function(html){
 				return cheerio.load(html, {
@@ -33,20 +28,20 @@ module.exports = function(directory, plugins){
 				})).then(function(){
 					return $.html();
 				});
-			}).then(res.send.bind(res), next);
+			}).then(null, next);
 	};
 
-	var api = function(req, res, requestPath, next){
+	var api = function(req, requestPath, next){
 		registerDirs(templates.defaultDirs());
-		f(req, res, templates.file(requestPath), next);
+		return f(req, templates.file(requestPath), next);
 	};
 
-	api.error = function(req, res, code, next){
-		templates.errorAvailable(code).then(function(isAvailable){
+	api.error = function(req, code, next){
+		return templates.errorAvailable(code).then(function(isAvailable){
 			if (!isAvailable)
 				return next();
 			registerDirs(templates.errorDirs());
-			f(req, res, templates.errorPath(code), next);
+			return f(req, templates.errorPath(code), next);
 		}).then(null, next);
 	};
 
