@@ -8,6 +8,10 @@ module.exports = function(directory, plugins){
 	plugins.forEach(function(plugin){
 		if (plugin.middleware)
 			app.use(plugin.middleware);
+		if (plugin.middlewares)
+			plugin.middlewares.forEach(function(middleware){
+				app.use(middleware);
+			});
 	});
 
 	return app;
