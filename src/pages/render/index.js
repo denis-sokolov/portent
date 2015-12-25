@@ -46,7 +46,14 @@ module.exports = function(templates, plugins){
 				throw e;
 			}
 			registerDirs(templates.errorDirs());
-			return f(req, templates.errorPath(code));
+			return f(req, templates.errorPath(code))
+				.then(function(html){
+					if (html.length < 512) {
+						var repeat = function(s, n){ return (new Array(n + 1)).join(s); };
+						return html + '<!--!' + repeat('-', 512) + '-->';
+					}
+					return html;
+				});
 		});
 	};
 

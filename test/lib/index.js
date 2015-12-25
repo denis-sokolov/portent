@@ -40,6 +40,8 @@ var api = function(name, testPath, opts){
 					env.test.equal(res.headers['x-ua-compatible'], 'IE=edge', 'Has IE header');
 				if (opts.assert)
 					env.test.ok(opts.assert(res.$), 'custom check passes');
+				if (opts.bodyLengthAtLeast)
+					env.test.ok(res.text.length >= opts.bodyLengthAtLeast, 'body of correct length');
 				if (opts.contains)
 					env.test.ok(res.text.indexOf(opts.contains) > -1, 'contains correct body');
 				if (opts.doesNotContain)

@@ -24,3 +24,8 @@ test('does not use a regular page for 404 page', {
 	canBeDefault: true,
 	doesNotContain: 'A regular page'
 });
+
+test('pads 404 error for IE friendly errors', {
+	fixture: 'short',
+	bodyLengthAtLeast: 512
+});
