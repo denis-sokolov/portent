@@ -17,7 +17,13 @@ module.exports = function(directory, plugins){
 
 	var f = function(req, requestPath){
 		return Promise.denodeify(nunjucks.render)(requestPath)
-			.then(function(html){
+			.then(null, function(err){
+				if (err.message.indexOf('template not found') > -1) {
+					err.templateNotFound = true;
+					throw err;
+				}
+				throw err;
+			}).then(function(html){
 				return cheerio.load(html, {
 					decodeEntities: false
 				});
