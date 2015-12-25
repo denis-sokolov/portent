@@ -1,7 +1,5 @@
 'use strict';
 
-var getFiles = require('../util/get-files');
-
 var renderFactory = require('./render');
 var templatesFactory = require('./templates');
 
@@ -9,20 +7,6 @@ module.exports = function(projectDirectory, plugins, opts){
 	opts = opts || {};
 	var templates = templatesFactory(projectDirectory);
 	var render = renderFactory(templates, plugins);
-
-	var pagesDirectory = projectDirectory + '/pages';
-	var pages = getFiles(pagesDirectory, ['html']).then(function(paths){
-		return paths
-			// Make paths relative to /pages
-			.map(function(path){ return path.substring(pagesDirectory.length); })
-
-			// Remove .html extension
-			.map(function(path){ return path.substring(0, path.length - 5); });
-	}).then(function(paths){
-		return paths.map(function(path){
-			return path.replace(/\/index$/, '/');
-		});
-	});
 
 	var send = function(res){
 		return function(html){
@@ -68,7 +52,7 @@ module.exports = function(projectDirectory, plugins, opts){
 		paths: function(){
 			return Promise.all([
 				templates.errorAvailable(404),
-				pages
+				templates.pages()
 			]).then(function(res){
 				var isError404Available = res[0];
 				var foundPages = res[1];

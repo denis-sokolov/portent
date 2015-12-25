@@ -5,6 +5,8 @@ var path = require('path');
 
 var Promise = require('promise');
 
+var getFiles = require('../../util/get-files');
+
 var filepath = function(p){
 	if (p.substr(p.length - 1) === '/')
 		p += 'index';
@@ -18,10 +20,8 @@ var filepath = function(p){
 };
 
 module.exports = function(directory){
-	var dirs = [
-		__dirname,
-		directory + '/pages'
-	];
+	var pagesDirectory = directory + '/pages';
+	var dirs = [__dirname, pagesDirectory];
 	var errorDirectory = path.join(directory, 'errors');
 
 	return {
@@ -39,6 +39,21 @@ module.exports = function(directory){
 			return filepath('/' + String(code));
 		},
 
-		file: filepath
+		file: filepath,
+
+		pages: function(){
+			return getFiles(pagesDirectory, ['html']).then(function(paths){
+				return paths
+					// Make paths relative to /pages
+					.map(function(p){ return p.substring(pagesDirectory.length); })
+
+					// Remove .html extension
+					.map(function(p){ return p.substring(0, p.length - 5); });
+			}).then(function(paths){
+				return paths.map(function(p){
+					return p.replace(/\/index$/, '/');
+				});
+			});
+		}
 	};
 };
