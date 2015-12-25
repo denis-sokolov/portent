@@ -3,8 +3,7 @@
 var renderFactory = require('./render');
 var templatesFactory = require('./templates');
 
-module.exports = function(projectDirectory, plugins, opts){
-	opts = opts || {};
+module.exports = function(projectDirectory, plugins){
 	var templates = templatesFactory(projectDirectory);
 	var render = renderFactory(templates, plugins);
 
