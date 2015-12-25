@@ -32,7 +32,7 @@ var api = function(name, testPath, opts){
 		opts.type = opts.type || 'text/html';
 		return api(name, function(env){
 			return env.request(testPath).then(function(res){
-				if (opts.status)
+				if (opts.status && opts.status !== 'any')
 					env.test.equal(res.code, opts.status, 'correct status code');
 				if (res.type)
 					env.test.equal(res.type, opts.type, 'correct type');

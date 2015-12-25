@@ -1,22 +1,26 @@
 'use strict';
 
-var test = require('./lib');
+var extend = require('util')._extend;
 
-test('uses code 404 for 404 page', '/404', {
-	build: false,
-	status: 404,
+var lib = require('./lib');
+
+var test = function(name, opts){
+	lib(name + ' on server 404', '/-nonexisting', extend({
+		build: false,
+		status: 404
+	}, opts));
+	lib(name + ' on built 404', '/.404', extend({
+		server: false,
+		status: 'any'
+	}, opts));
+};
+
+test('uses code 404 for 404 page', {
 	contains: 'Sample 404'
 });
 
-test('uses proper page 404 for building', '/.404', {
-	server: false,
-	contains: 'Sample 404'
-});
-
-test('does not use a regular page for 404 page', '/-nonexisting', {
-	build: false,
+test('does not use a regular page for 404 page', {
 	fixture: 'mixup',
-	status: 404,
 	canBeDefault: true,
 	doesNotContain: 'A regular page'
 });
