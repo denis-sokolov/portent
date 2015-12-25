@@ -36,7 +36,7 @@ module.exports = function(projectDirectory, plugins, opts){
 			var path = decodeURI(req.path);
 			pages.then(function(paths){
 				if (paths.indexOf(path) > -1)
-					return render(req, path, next).then(send);
+					return render(req, path).then(send, next);
 				if (opts.serveErrors && path.match(/^\/\.\d{3}$/))
 					return render.error(req, path.substr(2), next).then(send);
 				res.status(404);

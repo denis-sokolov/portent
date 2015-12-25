@@ -15,7 +15,7 @@ module.exports = function(directory, plugins){
 		});
 	};
 
-	var f = function(req, requestPath, next){
+	var f = function(req, requestPath){
 		return Promise.denodeify(nunjucks.render)(requestPath)
 			.then(function(html){
 				return cheerio.load(html, {
@@ -28,12 +28,12 @@ module.exports = function(directory, plugins){
 				})).then(function(){
 					return $.html();
 				});
-			}).then(null, next);
+			});
 	};
 
-	var api = function(req, requestPath, next){
+	var api = function(req, requestPath){
 		registerDirs(templates.defaultDirs());
-		return f(req, templates.file(requestPath), next);
+		return f(req, templates.file(requestPath));
 	};
 
 	api.error = function(req, code, next){
@@ -41,7 +41,7 @@ module.exports = function(directory, plugins){
 			if (!isAvailable)
 				return next();
 			registerDirs(templates.errorDirs());
-			return f(req, templates.errorPath(code), next);
+			return f(req, templates.errorPath(code));
 		}).then(null, next);
 	};
 
