@@ -4,15 +4,18 @@ var cheerio = require('cheerio');
 var Promise = require('promise');
 var nunjucks = require('nunjucks');
 
-module.exports = function(templates, plugins){
-	var registerDirs = function(paths){
-		nunjucks.configure(paths, {
-			noCache: true
-		});
-	};
+var renderNunjucks = function(dirs, requestPath){
+	// Uses global state to pass settings.
+	// .configure is supposed to return an env with env.render, but that did not work
+	nunjucks.configure(dirs, {
+		noCache: true
+	});
+	return Promise.denodeify(nunjucks.render)(requestPath);
+};
 
-	var f = function(req, requestPath){
-		return Promise.denodeify(nunjucks.render)(requestPath)
+module.exports = function(templates, plugins){
+	var render = function(dirs, req, requestPath){
+		return renderNunjucks(dirs, requestPath)
 			.then(null, function(err){
 				if (err.message.indexOf('template not found') > -1) {
 					err.templateNotFound = true;
@@ -34,8 +37,7 @@ module.exports = function(templates, plugins){
 	};
 
 	var api = function(req, requestPath){
-		registerDirs(templates.defaultDirs());
-		return f(req, templates.file(requestPath));
+		return render(templates.defaultDirs(), req, templates.file(requestPath));
 	};
 
 	api.error = function(req, code){
@@ -45,8 +47,7 @@ module.exports = function(templates, plugins){
 				e.templateNotFound = true;
 				throw e;
 			}
-			registerDirs(templates.errorDirs());
-			return f(req, templates.errorPath(code))
+			return render(templates.errorDirs(), req, templates.errorPath(code))
 				.then(function(html){
 					if (html.length < 512) {
 						var repeat = function(s, n){ return (new Array(n + 1)).join(s); };
