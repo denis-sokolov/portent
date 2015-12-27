@@ -7,6 +7,15 @@ var portent = require('../..');
 
 module.exports = function(fixtureDir){
 	var server = portent(fixtureDir).server;
+
+	// Silence error logs in the console
+	server.use(function(err, req, res, next){
+		if (res.headersSent)
+			return next(err);
+		res.status(500);
+		res.send(err.message);
+	});
+
 	var request = function(requestPath){
 		return new Promise(function(resolve, reject){
 			supertest(server)

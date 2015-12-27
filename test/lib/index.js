@@ -16,11 +16,13 @@ var serverEnv = require('./serverEnv');
 // In other words, it's part of the test.
 var fixturesDir = __dirname + '/../_fixtures';
 
+var fixturesIgnoredInBuild = ['invalid-import'];
+
 var fixtures = _.object(fs.readdirSync(fixturesDir).map(function(name){
 	var dir = fixturesDir + '/' + name;
 	return [name, {
 		server: serverEnv(dir).then(memoize),
-		build: buildEnv(dir).then(memoize)
+		build: fixturesIgnoredInBuild.indexOf(name) === -1 ? buildEnv(dir).then(memoize) : null
 	}];
 }));
 

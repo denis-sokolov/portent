@@ -1,28 +1,40 @@
 'use strict';
 
+var fs = require('fs');
+
 var cheerio = require('cheerio');
 var Promise = require('promise');
 var nunjucks = require('nunjucks');
 
 var renderNunjucks = function(dirs, requestPath){
+	// Attempt to distinguish errors
+	var clarifyError = function(err){
+		if (err.message.indexOf('template not found') === -1)
+			throw err;
+
+		return Promise.all(dirs.map(function(dir){
+			return Promise.denodeify(fs.stat)(dir + '/' + requestPath)
+				.then(function(){ return true; }, function(){ return false; });
+		})).then(function(results){
+			if (results.filter(function(exists){ return exists; }).length > 0)
+				throw err;
+			err.templateNotFound = true;
+			throw err;
+		});
+	};
+
 	// Uses global state to pass settings.
 	// .configure is supposed to return an env with env.render, but that did not work
 	nunjucks.configure(dirs, {
 		noCache: true
 	});
-	return Promise.denodeify(nunjucks.render)(requestPath);
+	return Promise.denodeify(nunjucks.render)(requestPath).then(null, clarifyError);
 };
 
 module.exports = function(templates, plugins){
 	var render = function(dirs, req, requestPath){
 		return renderNunjucks(dirs, requestPath)
-			.then(null, function(err){
-				if (err.message.indexOf('template not found') > -1) {
-					err.templateNotFound = true;
-					throw err;
-				}
-				throw err;
-			}).then(function(html){
+			.then(function(html){
 				return cheerio.load(html, {
 					decodeEntities: false
 				});
