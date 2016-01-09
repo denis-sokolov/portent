@@ -2,12 +2,8 @@
 
 var fs = require('fs');
 
-var frozen = require('frozen-express');
-var gulp = require('gulp');
-var Promise = require('promise');
-var streamCombiner = require('stream-combiner');
-
 var base = require('./base');
+var build = require('./build');
 var favicon = require('./favicon');
 var images = require('./images');
 var pages = require('./pages');
@@ -17,12 +13,6 @@ var server = require('./server');
 var statics = require('./statics');
 var stylesheets = require('./stylesheets');
 
-var streamEndToPromise = function(stream){
-	return new Promise(function(resolve, reject){
-		stream.on('end', function(){ resolve(); });
-		stream.on('error', reject);
-	});
-};
 
 module.exports = function(directory){
 	// Ensure the code works with symlinks and ../ in the path
@@ -54,22 +44,7 @@ module.exports = function(directory){
 	}));
 
 	return {
-		build: function(destinationDirectory){
-			var app = server(directory, plugins.build);
-
-			var paths = plugins.build.map(function(plugin){
-				if (plugin.paths)
-					return plugin.paths();
-			}).filter(function(x){ return x; });
-
-			return Promise.all(paths).then(function(deepUrls){
-				var urls = [].concat.apply([], deepUrls);
-				return streamEndToPromise(streamCombiner(
-					frozen(app, { urls: urls }),
-					gulp.dest(destinationDirectory)
-				));
-			});
-		},
+		build: build(server, directory, plugins.build),
 		server: server(directory, plugins.server)
 	};
 };
