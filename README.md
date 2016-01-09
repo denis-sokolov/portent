@@ -54,7 +54,7 @@ The structure above will produce a website that responds to URLs `/` and `/about
 It is recommended to include a <base> tag in every template and refer to files and URLs relative to the root of the project, without using a leading slash. For example, to link from `projects/foo` to `about`, use a string `about`, not `../about`. A workflow different from this has undefined behavior.
 
 ### Errors
-`errors` directory contains templates for HTTP errors. Currently supported is the 404 template.
+`errors` directory contains templates for HTTP errors.
 
 ### CSS
 All CSS are combined and included in your HTML.
@@ -117,4 +117,3 @@ To develop your website, run a development server in the terminal: `portent run 
 
 ### Building for production
 To build the website for production, use `portent build .`, or in Node `portent(directory).build(destination)`.
-

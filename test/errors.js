@@ -2,7 +2,7 @@
 
 var lib = require('./lib');
 
-[404].forEach(function(code){
+[404, 500].forEach(function(code){
 	var test = function(name, opts){
 		lib(name, '/.' + code, opts);
 

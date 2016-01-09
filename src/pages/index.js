@@ -50,14 +50,12 @@ module.exports = function(projectDirectory, plugins){
 		],
 		paths: function(){
 			return Promise.all([
-				templates.errorAvailable(404),
+				templates.errors(),
 				templates.pages()
 			]).then(function(res){
-				var isError404Available = res[0];
+				var foundErrors = res[0].map(code => '/.' + code);
 				var foundPages = res[1];
-				if (isError404Available)
-					return ['/.404'].concat(foundPages);
-				return foundPages;
+				return foundErrors.concat(foundPages);
 			});
 		}
 	};
