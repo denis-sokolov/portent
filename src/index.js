@@ -5,6 +5,7 @@ var fs = require('fs');
 var base = require('./base');
 var build = require('./build');
 var favicon = require('./favicon');
+var htaccess = require('./htaccess');
 var images = require('./images');
 var pages = require('./pages');
 var scripts = require('./scripts');
@@ -34,7 +35,8 @@ module.exports = function(directory){
 			scripts(directory),
 			stylesheets(directory, { minify: true }),
 			statics(directory),
-			selfLinks()
+			selfLinks(),
+			htaccess()
 		]
 	};
 
