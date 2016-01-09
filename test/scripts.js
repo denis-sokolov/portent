@@ -45,6 +45,9 @@ test('files are sorted by name', function(t, js){
 });
 
 
+test('JS is minified', function(t, js){
+	t.equal(js.indexOf('just a comment'), -1, 'does not have a comment inside');
+});
 lib('JS has far away Expires header', function(env){
 	return env.request('/').then(function(res){
 		return env.request(res.$('script').attr('src'));
