@@ -2,7 +2,7 @@
 
 module.exports = function(){
 	return {
-		modifyHtml: function(req, $){
+		modifyHtml: function($, env){
 			if ($('base').length === 0) {
 				var tag = $('<base>');
 				if ($('head').length)
@@ -11,7 +11,7 @@ module.exports = function(){
 					$('title').after(tag);
 				else $.root().append(tag);
 			}
-			var url = req.protocol + '://' + req.headers.host + '/';
+			var url = env.req.protocol + '://' + env.req.headers.host + '/';
 			$('base').attr('href', url);
 		}
 	};

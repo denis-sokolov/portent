@@ -87,7 +87,7 @@ module.exports = function(directory){
 			next();
 		},
 		paths: getPaths,
-		modifyHtml: function(req, $){
+		modifyHtml: function($){
 			return getPaths().then(function(paths){
 				return paths.map(function(path){
 					return $('<script>').attr('src', path);

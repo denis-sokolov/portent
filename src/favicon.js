@@ -31,7 +31,7 @@ module.exports = function(imgpath){
 			return fileExists()
 				.then(exists => exists ? ['/favicon.png'] : []);
 		},
-		modifyHtml: function(req, $){
+		modifyHtml: function($){
 			return fileExists()
 				.then(function(exists){
 					if (exists && $('link[rel="icon"]').length === 0) {

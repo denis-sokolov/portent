@@ -41,7 +41,9 @@ module.exports = function(templates, plugins){
 			}).then(function($){
 				return Promise.all(plugins.map(function(plugin){
 					if (plugin.modifyHtml)
-						return plugin.modifyHtml(req, $);
+						return plugin.modifyHtml($, {
+							req
+						});
 				})).then(function(){
 					return $.html();
 				});

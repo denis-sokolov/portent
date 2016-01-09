@@ -2,8 +2,8 @@
 
 module.exports = function(){
 	return {
-		modifyHtml: function(req, $){
-			var current = req.url.substr(1);
+		modifyHtml: function($, env){
+			var current = env.req.url.substr(1);
 			$('a').filter(function(){
 				return $(this).attr('href') === current;
 			}).addClass('self-link').replaceWith(function(){

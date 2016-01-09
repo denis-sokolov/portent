@@ -55,7 +55,7 @@ module.exports = function(directory, options){
 			});
 		},
 		paths: getPaths,
-		modifyHtml: function(req, $){
+		modifyHtml: function($){
 			return getPaths().then(function(paths){
 				return paths.map(function(path){
 					return $('<link>').attr('rel', 'stylesheet').attr('href', path);
