@@ -10,8 +10,7 @@ var test = function(name, opts){
 		status: 404
 	}, opts));
 	lib(name + ' on built 404', '/.404', extend({
-		server: false,
-		status: 'any'
+		server: false
 	}, opts));
 };
 
@@ -22,7 +21,8 @@ test('uses code 404 for 404 page', {
 test('does not use a regular page for 404 page', {
 	fixture: 'mixup',
 	canBeDefault: true,
-	doesNotContain: 'A regular page'
+	doesNotContain: 'A regular page',
+	status: 404
 });
 
 test('pads 404 error for IE friendly errors', {
