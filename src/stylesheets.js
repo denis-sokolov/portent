@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var gulpAutoprefixer = require('gulp-autoprefixer');
 var gulpSourcemaps = require('gulp-sourcemaps');
 var gulpConcat = require('gulp-concat');
+var gulpCssNano = require('gulp-cssnano');
 var gulpIf = require('gulp-if');
 var gulpLess = require('gulp-less');
 var md5 = require('md5');
@@ -25,6 +26,7 @@ module.exports = function(directory){
 				})))
 				.pipe(gulpConcat('compiled.css'))
 				.pipe(gulpAutoprefixer())
+				.pipe(gulpCssNano())
 				.pipe(gulpSourcemaps.write()));
 		});
 	};

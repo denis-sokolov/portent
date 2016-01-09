@@ -34,14 +34,14 @@ var negative = function(name, stringToNotFind){
 };
 
 simple('CSS is combined and served', 'margin-bottom');
-simple('compiles LESS', 'color: red');
-negative('ignores _ prefixed files', 'color: brown');
-negative('ignores _ prefixed directories', 'underscored-directory: true');
+simple('compiles LESS', '#abc');
+negative('ignores _ prefixed files', '#def');
+negative('ignores _ prefixed directories', 'underscored-directory:true');
 simple('includes LESS sourcemaps', 'sourceMappingURL');
-simple('does not parse non-LESS files', 'no-less-here: @see');
+simple('does not parse non-LESS files', 'no-less-here:@see');
 negative('does not include non-LESS and non-CSS files', 'Custom-information');
 simple('autoprefixes', ':-webkit-full-screen');
-simple('includes predefined LESS', 'resize: vertical');
+simple('includes predefined LESS', 'resize:vertical');
 
 lib('CSS has far away Expires header', function(env){
 	return env.request('/').then(function(res){
@@ -52,12 +52,17 @@ lib('CSS has far away Expires header', function(env){
 }, {build: false});
 
 test('only imports LESS with an explicit import, not always', function(t, css){
-	t.ok(css.indexOf('padding-top: 13') < css.indexOf('resize: vertical'),
+	t.ok(css.indexOf('padding-top:13') < css.indexOf('resize:vertical'),
 		'does not prepend base LESS');
-	t.ok(css.indexOf('resize: vertical') < css.indexOf('color: red'),
+	t.ok(css.indexOf('resize:vertical') < css.indexOf('color:#abc'),
 		'does not append base LESS');
 });
 
 lib('injects the <link> tag not in <title>', '/title', {
 	contains: '<title>Document</title>'
+});
+
+test('removes comments', function(t, css){
+	t.equal(css.indexOf('an inline comment'), -1, 'removes inline coments');
+	t.equal(css.indexOf('a multiline comment'), -1, 'removes multiline coments');
 });
