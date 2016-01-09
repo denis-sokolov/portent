@@ -1,4 +1,4 @@
-# Portent
+# ![portent: perfect websites](media/logo.png)
 
 [![Build Status](https://travis-ci.org/denis-sokolov/portent.svg?branch=master)](https://travis-ci.org/denis-sokolov/portent)
 [![Dependency Status](https://gemnasium.com/denis-sokolov/portent.svg)](https://gemnasium.com/denis-sokolov/portent)
