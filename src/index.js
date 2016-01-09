@@ -46,9 +46,7 @@ module.exports = function(directory){
 	};
 
 	plugins.server.push(pages(directory, plugins.server));
-	plugins.build.push(pages(directory, plugins.build, {
-		serveErrors: true
-	}));
+	plugins.build.push(pages(directory, plugins.build));
 
 	return {
 		build: function(destinationDirectory){
