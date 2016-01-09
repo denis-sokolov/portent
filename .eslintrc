@@ -1,3 +1,6 @@
 {
-  "extends": "useclark"
+  "extends": "useclark",
+  "env": {
+      "es6": true
+  }
 }
