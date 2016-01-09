@@ -13,7 +13,10 @@ var expires = require('./util/expires');
 var gulpStreamToString = require('./util/gulp-stream-to-string');
 var getFiles = require('./util/get-files');
 
-module.exports = function(directory){
+module.exports = function(directory, options){
+	options = options || {}
+	options.minify = Boolean(options.minify)
+
 	var get = function(){
 		return getFiles(
 			[directory + '/css'],
@@ -26,7 +29,7 @@ module.exports = function(directory){
 				})))
 				.pipe(gulpConcat('compiled.css'))
 				.pipe(gulpAutoprefixer())
-				.pipe(gulpCssNano())
+				.pipe(gulpIf(options.minify, gulpCssNano()))
 				.pipe(gulpSourcemaps.write()));
 		});
 	};

@@ -39,7 +39,7 @@ module.exports = function(directory){
 		build: [
 			images(directory),
 			scripts(directory),
-			stylesheets(directory),
+			stylesheets(directory, { minify: true }),
 			statics(directory),
 			selfLinks()
 		]
