@@ -16,7 +16,10 @@ module.exports = function(projectDirectory, plugins, options){
 		return function(html){
 			if (options.minify)
 				html = minifier.minify(html, {
-					removeComments: true
+					removeComments: true,
+					ignoreCustomComments: [
+						/@license\b/
+					]
 				});
 
 			// Allegedly there may be cases where IE disregards
