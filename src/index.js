@@ -47,7 +47,7 @@ module.exports = function(directory){
 
 	plugins.server.push(pages(directory, plugins.server));
 	plugins.build.push(pages(directory, plugins.build, {
-		removeComments: true
+		minify: true
 	}));
 
 	return {

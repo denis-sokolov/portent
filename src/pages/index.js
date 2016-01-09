@@ -1,19 +1,19 @@
 'use strict';
 
-var minify = require('./minify');
+var cleanup = require('./cleanup');
 var renderFactory = require('./render');
 var templatesFactory = require('./templates');
 
 module.exports = function(projectDirectory, plugins, options){
 	options = options || {}
-	options.removeComments = Boolean(options.removeComments)
+	options.minify = Boolean(options.minify)
 
 	var templates = templatesFactory(projectDirectory);
 	var render = renderFactory(templates, plugins);
 
 	var send = function(res){
 		return function(html){
-			html = minify(html, options.removeComments);
+			html = cleanup(html, options.minify);
 
 			// Allegedly there may be cases where IE disregards
 			// the meta tag on non-standard ports, which is exactly where
