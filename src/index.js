@@ -8,6 +8,7 @@ var Promise = require('promise');
 var streamCombiner = require('stream-combiner');
 
 var base = require('./base');
+var favicon = require('./favicon');
 var images = require('./images');
 var pages = require('./pages');
 var scripts = require('./scripts');
@@ -30,6 +31,7 @@ module.exports = function(directory){
 	var plugins = {
 		server: [
 			images(directory),
+			favicon(directory + '/img/favicon.png'),
 			scripts(directory),
 			stylesheets(directory),
 			statics(directory),
@@ -38,6 +40,7 @@ module.exports = function(directory){
 		],
 		build: [
 			images(directory),
+			favicon(directory + '/img/favicon.png'),
 			scripts(directory),
 			stylesheets(directory, { minify: true }),
 			statics(directory),

@@ -28,6 +28,7 @@ The website project directory should look as follows:
   header.css
   typography.less
 /img
+  favicon.png
   p1.jpg
   logo.png
 /js
@@ -106,6 +107,8 @@ Set a theme color for your website to use whenever it is possible to customize b
 
 ### Images
 Images in `img` will become part of your website.
+
+If a file `favicon.png` is present in the root of your images directory, it will be added to your website as a proper favicon, resized and included in HTML. It is recommended to have the base favicon in at least the 196x196 size.
 
 ### Static
 Everything in `static` will become part of your website. Use this to host fonts, videos, other resources of the sort.
