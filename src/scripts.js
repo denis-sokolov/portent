@@ -87,20 +87,12 @@ module.exports = function(directory){
 			next();
 		},
 		paths: getPaths,
-		modifyHtml: function($){
+		modifyHtml: function($, env){
 			return getPaths().then(function(paths){
 				return paths.map(function(path){
 					return $('<script>').attr('src', path);
 				});
-			}).then(function(tags){
-				if ($('body').length > 0)
-					$('body').append(tags);
-				else if ($('html').length > 0)
-					$('html').append(tags);
-				else {
-					$.root().append(tags);
-				}
-			});
+			}).then(env.appendToBody);
 		}
 	};
 };

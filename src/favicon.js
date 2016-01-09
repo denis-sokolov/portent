@@ -31,16 +31,12 @@ module.exports = function(imgpath){
 			return fileExists()
 				.then(exists => exists ? ['/favicon.png'] : []);
 		},
-		modifyHtml: function($){
+		modifyHtml: function($, env){
 			return fileExists()
 				.then(function(exists){
 					if (exists && $('link[rel="icon"]').length === 0) {
 						var tag = $('<link rel=icon>').attr('href', 'favicon.png');
-						if ($('head').length)
-							$('head').append(tag);
-						else if ($('title').length)
-							$('title').after(tag);
-						else $.root().append(tag);
+						env.appendToHead(tag);
 					}
 				});
 		}

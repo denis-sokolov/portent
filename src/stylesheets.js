@@ -55,19 +55,12 @@ module.exports = function(directory, options){
 			});
 		},
 		paths: getPaths,
-		modifyHtml: function($){
+		modifyHtml: function($, env){
 			return getPaths().then(function(paths){
 				return paths.map(function(path){
 					return $('<link>').attr('rel', 'stylesheet').attr('href', path);
 				});
-			}).then(function(tags){
-				if ($('head').length > 0)
-					$('head').append(tags);
-				else if ($('meta, title').length > 0)
-					$('meta, title').last().after(tags);
-				else
-					$.root().prepend(tags);
-			});
+			}).then(env.appendToHead);
 		}
 	};
 };

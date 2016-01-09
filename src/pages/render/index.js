@@ -42,7 +42,23 @@ module.exports = function(templates, plugins){
 				return Promise.all(plugins.map(function(plugin){
 					if (plugin.modifyHtml)
 						return plugin.modifyHtml($, {
-							req
+							req,
+							appendToBody: function(tag){
+								if ($('body').length)
+									$('body').append(tag);
+								else if ($('html').length)
+									$('html').append(tag);
+								else $.root().append(tag);
+							},
+							appendToHead: function(tag){
+								if ($('head').length)
+									$('head').append(tag);
+								else if ($('meta, title').length)
+									$('meta, title').last().after(tag);
+								else if ($('body').length)
+									$('body').before(tag);
+								else $.root().prepend(tag);
+							}
 						});
 				})).then(function(){
 					return $.html();
