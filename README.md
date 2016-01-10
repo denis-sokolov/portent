@@ -14,7 +14,8 @@ Run `npm install --save portent`, then add two scripts to your `package.json`:
 ```json
 "scripts": {
 	"start": "portent run .",
-	"build": "portent build ."
+	"build": "portent build .",
+	"deploy": "portent deploy . my-ssh-server:path/to/destination"
 }
 ```
 
@@ -120,3 +121,6 @@ To develop your website, run a development server in the terminal: `portent run 
 
 ### Building for production
 To build the website for production, use `portent build .`, or in Node `portent(directory).build(destination)`.
+
+### Deploying
+To deploy the website, portent exposes a nicer way to use rsync on your machine. Run `portent deploy . ssh-server:path/on/remote/`.
