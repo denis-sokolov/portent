@@ -2,10 +2,9 @@
 
 var lib = require('./lib');
 
-var getJs = function(env, n){
-	n = n || 0;
+var getJs = function(env){
 	return env.request('/').then(function(res){
-		return env.request(res.$('script').eq(n).attr('src'));
+		return env.request(res.$('script').eq(0).attr('src'));
 	}).then(function(res){
 		env.test.equal(res.code, 200, 'js is served');
 		if (res.type)
@@ -14,20 +13,16 @@ var getJs = function(env, n){
 	});
 };
 
-var test = function(name, opts, check){
-	if (!check) {
-		check = opts;
-		opts = { n: 1 };
-	}
+var test = function(name, check, opts){
 	lib('JS ' + name, function(env){
-		return getJs(env, opts.n).then(function(js){
+		return getJs(env).then(function(js){
 			return check(env.test, js);
 		});
-	});
+	}, opts);
 };
 
 var simple = function(name, stringToSearch){
-	return test(name, { n: 1 }, function(t, js){
+	return test(name, function(t, js){
 		t.ok(js.indexOf(stringToSearch) > -1, 'contains string');
 	});
 };
@@ -45,9 +40,13 @@ test('files are sorted by name', function(t, js){
 });
 
 
-test('JS is minified', function(t, js){
+test('JS is minified in build', function(t, js){
 	t.equal(js.indexOf('just a comment'), -1, 'does not have a comment inside');
-});
+}, { server: false });
+test('JS is not minified in dev', function(t, js){
+	t.ok(js.indexOf('just a comment') > -1, 'does have a comment inside');
+}, { build: false });
+
 lib('JS has far away Expires header', function(env){
 	return env.request('/').then(function(res){
 		return env.request(res.$('script').attr('src'));
@@ -57,18 +56,10 @@ lib('JS has far away Expires header', function(env){
 }, {build: false});
 
 
-test('it adds library code', { n: 0 }, function(t, js){
+test('it adds library code', function(t, js){
 	t.ok(js.indexOf('This is a library') > -1, 'contains string');
 });
 
-test('it adds second library code', { n: 0 }, function(t, js){
+test('it adds second library code', function(t, js){
 	t.ok(js.indexOf('This is a second library') > -1, 'contains string');
-});
-
-test('it does not add library code to the main bundle', { n: 1 }, function(t, js){
-	t.ok(js.indexOf('This is a library') === -1, 'does not contain');
-});
-
-test('it does not add regular code to the library bundle', { n: 0 }, function(t, js){
-	t.ok(js.indexOf('Hello, world!') === -1, '');
 });

@@ -32,7 +32,7 @@ module.exports = function(directory){
 		build: [
 			images(directory),
 			favicon(directory + '/img/favicon.png'),
-			scripts(directory),
+			scripts(directory, { minify: true }),
 			stylesheets(directory, { minify: true }),
 			statics(directory),
 			selfLinks(),
