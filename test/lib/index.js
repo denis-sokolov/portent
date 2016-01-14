@@ -18,7 +18,7 @@ var fixturesDir = __dirname + '/../_fixtures';
 
 var fixturesIgnoredInBuild = ['invalid-import'];
 
-var fixtures = _.object(fs.readdirSync(fixturesDir).map(function(name){
+var fixtures = _.fromPairs(fs.readdirSync(fixturesDir).map(function(name){
 	var dir = fixturesDir + '/' + name;
 	return [name, {
 		server: serverEnv(dir).then(memoize),

@@ -44,7 +44,7 @@ module.exports = function(directories, extensions){
 		return files.filter(function(file){
 			if (file.indexOf('/../') > -1)
 				throw new Error('Internal assertion error, found /../ in a path: ' + file);
-			var isIgnored = _.any(directories, function(directory){
+			var isIgnored = _.some(directories, function(directory){
 				if (file.indexOf(directory) === 0)
 					if (file.substring(directory.length).indexOf('/_') > -1)
 						return true;
