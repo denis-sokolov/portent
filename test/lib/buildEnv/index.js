@@ -7,6 +7,11 @@ var portent = require('../../..');
 
 var tmpEnv = require('./tmpEnv');
 
+var isHtmlRequest = function(path){
+	return path.indexOf('.') === -1 ||
+		path.match(/\/\.\d{3}$/);
+};
+
 module.exports = function(fixtureDir){
 	var diskEnv = tmpEnv();
 	return portent(fixtureDir).build(diskEnv.dest).then(function(){
@@ -19,7 +24,7 @@ module.exports = function(fixtureDir){
 				// Semantically this information belongs in individual tests,
 				// but our naming pattern is clear and this allows for simpler test cases.
 				// This also has no effect on production.
-				(requestPath.match(/[^\/]\.[a-z0-9]+$/) ? '' : '.html');
+				(isHtmlRequest(requestPath) ? '.html' : '');
 
 				var contents;
 				try {
