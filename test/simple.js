@@ -19,3 +19,8 @@ test('does not return _ pages', '/_base', 404);
 test('subdir index works', '/subdir/', {
 	contains: 'Subdirectory index'
 });
+
+test('index is not accessible as index', '/index', {
+	build: false,
+	status: 404
+});

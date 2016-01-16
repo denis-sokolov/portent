@@ -8,9 +8,6 @@ var Promise = require('promise');
 var getFiles = require('../../util/get-files');
 
 var filepath = function(p){
-	if (p.substr(p.length - 1) === '/')
-		p += 'index';
-
 	// Remove leading slash
 	p = p.substring(1);
 

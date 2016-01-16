@@ -38,7 +38,11 @@ module.exports = function(projectDirectory, plugins, options){
 				var path = decodeURI(req.path);
 				if (path.indexOf('/_') > -1)
 					return next();
-				render(req, decodeURI(req.path))
+				if (path.match(/\/index$/))
+					return next();
+				if (path.match(/\/$/))
+					path += 'index'
+				render(req, path)
 					.then(send(res), fail(next));
 			},
 			function(req, res, next){
