@@ -5,8 +5,8 @@ var renderFactory = require('./render');
 var templatesFactory = require('./templates');
 
 module.exports = function(projectDirectory, plugins, options){
-	options = options || {}
-	options.minify = Boolean(options.minify)
+	options = options || {};
+	options.minify = Boolean(options.minify);
 
 	var templates = templatesFactory(projectDirectory);
 	var render = renderFactory(templates, plugins);
@@ -41,7 +41,7 @@ module.exports = function(projectDirectory, plugins, options){
 				if (path.match(/\/index$/))
 					return next();
 				if (path.match(/\/$/))
-					path += 'index'
+					path += 'index';
 				render(req, path)
 					.then(send(res), fail(next));
 			},

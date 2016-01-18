@@ -14,8 +14,8 @@ var gulpStreamToString = require('./util/gulp-stream-to-string');
 var getFiles = require('./util/get-files');
 
 module.exports = function(directory, options){
-	options = options || {}
-	options.minify = Boolean(options.minify)
+	options = options || {};
+	options.minify = Boolean(options.minify);
 
 	var get = function(){
 		return getFiles(
