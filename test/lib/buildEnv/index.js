@@ -14,7 +14,12 @@ var isHtmlRequest = function(path){
 
 module.exports = function(fixtureDir){
 	var diskEnv = tmpEnv();
-	return portent(fixtureDir).build(diskEnv.dest).then(function(){
+	var warnings = [];
+	return portent(fixtureDir).build(diskEnv.dest, {
+		onWarning: function(warning){
+			warnings.push(warning);
+		}
+	}).then(function(){
 		var request = function(requestPath) {
 			return new Promise(function(resolve){
 				var filepath = diskEnv.dest + '/' + requestPath +
@@ -44,6 +49,8 @@ module.exports = function(fixtureDir){
 		};
 
 		process.on('beforeExit', diskEnv.cleanup);
+
+		request.warnings = warnings;
 
 		return request;
 	});

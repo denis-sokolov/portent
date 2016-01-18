@@ -20,9 +20,17 @@ var fixturesIgnoredInBuild = ['invalid-import'];
 
 var fixtures = _.fromPairs(fs.readdirSync(fixturesDir).map(function(name){
 	var dir = fixturesDir + '/' + name;
+	var build;
+	if (fixturesIgnoredInBuild.indexOf(name) === -1) {
+		build = buildEnv(dir).then(function(request){
+			var newRequest = memoize(request);
+			newRequest.warnings = request.warnings;
+			return newRequest;
+		});
+	}
 	return [name, {
 		server: serverEnv(dir).then(memoize),
-		build: fixturesIgnoredInBuild.indexOf(name) === -1 ? buildEnv(dir).then(memoize) : null
+		build: build
 	}];
 }));
 
@@ -86,6 +94,14 @@ var api = function(name, testPath, opts){
 		tape(name + ' (build)', function(t){
 			return commonTest(fixtures[opts.fixture].build, t, callback);
 		});
+};
+
+api.buildWarning = function(name, warning){
+	tape(name, function(t){
+		fixtures.main.build.then(function(r){
+			t.ok(r.warnings.some(w => w.indexOf(warning) !== -1), 'warning is found');
+		}).then(t.end, t.end);
+	});
 };
 
 api.hasExpires = function(test, response){

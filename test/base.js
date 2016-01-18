@@ -21,3 +21,5 @@ test('keeps <base> in production', '/', {
 	server: false,
 	contains: '<base href="http://example.com/'
 });
+
+test.buildWarning('warns about a missing <base>', 'Missing <base>.');

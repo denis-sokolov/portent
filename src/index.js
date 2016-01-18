@@ -19,34 +19,39 @@ module.exports = function(directory){
 	// Ensure the code works with symlinks and ../ in the path
 	directory = fs.realpathSync(directory);
 
-	var plugins = {
-		server: [
-			images(directory),
-			favicon(directory + '/img/favicon.png'),
-			scripts(directory),
-			stylesheets(directory),
-			statics(directory),
-			base(),
-			selfLinks()
-		],
-		build: [
-			images(directory),
-			favicon(directory + '/img/favicon.png'),
-			scripts(directory, { minify: true }),
-			stylesheets(directory, { minify: true }),
-			statics(directory),
-			selfLinks(),
-			htaccess()
-		]
-	};
-
-	plugins.server.push(pages(directory, plugins.server));
-	plugins.build.push(pages(directory, plugins.build, {
-		minify: true
-	}));
-
 	return {
-		build: build(server, directory, plugins.build),
-		server: server(directory, plugins.server)
+		build: function(destinationDirectory, opts){
+			opts = opts || {};
+			opts.onWarning = opts.onWarning || function(){};
+
+			var plugins = [
+				images(directory),
+				favicon(directory + '/img/favicon.png'),
+				scripts(directory, { minify: true }),
+				stylesheets(directory, { minify: true }),
+				statics(directory),
+				selfLinks(),
+				base.warnAboutMissingBase(opts.onWarning),
+				htaccess()
+			];
+			plugins.push(pages(directory, plugins, {
+				minify: true
+			}));
+
+			return build(server, directory, plugins)(destinationDirectory);
+		},
+		server: (function(){
+			var plugins = [
+				images(directory),
+				favicon(directory + '/img/favicon.png'),
+				scripts(directory),
+				stylesheets(directory),
+				statics(directory),
+				base.addBase(),
+				selfLinks()
+			];
+			plugins.push(pages(directory, plugins));
+			return server(directory, plugins);
+		})()
 	};
 };

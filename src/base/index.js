@@ -1,6 +1,8 @@
 'use strict';
 
-module.exports = function(){
+var api = {};
+
+api.addBase = function(){
 	return {
 		modifyHtml: function($, env){
 			if ($('base').length === 0) {
@@ -12,3 +14,15 @@ module.exports = function(){
 		}
 	};
 };
+
+api.warnAboutMissingBase = function(onWarning){
+	return {
+		modifyHtml: function($){
+			if ($('base').length === 0) {
+				onWarning('Missing <base>.');
+			}
+		}
+	};
+};
+
+module.exports = api;

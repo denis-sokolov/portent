@@ -120,7 +120,7 @@ Everything in `static` will become part of your website. Use this to host fonts,
 To develop your website, run a development server in the terminal: `portent run .` or in Node: `portent(directory).server.listen(port)`.
 
 ### Building for production
-To build the website for production, use `portent build .`, or in Node `portent(directory).build(destination)`.
+To build the website for production, use `portent build .`, or in Node `portent(directory).build(destination, { onWarning: console.log.bind(console) })`.
 
 ### Deploying
 To deploy the website, portent exposes a nicer way to use rsync on your machine. Run `portent deploy . ssh-server:path/on/remote/`.

@@ -36,7 +36,9 @@ if (args.command === 'run') {
 if (args.command === 'build') {
 	if (!args.dest)
 		args.dest = args.directory + '/build';
-	portent(args.directory).build(args.dest).then(function(){
+	portent(args.directory).build(args.dest, {
+		onWarning: warning => console.log('Warning!', warning)
+	}).then(function(){
 		console.log('Build completed.');
 	}, function(err){
 		console.log('Portent error');
