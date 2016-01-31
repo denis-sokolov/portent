@@ -28,6 +28,8 @@ The website project directory should look as follows:
 /css
   header.css
   typography.less
+/errors
+  404.html
 /img
   favicon.png
   p1.jpg
@@ -40,8 +42,6 @@ The website project directory should look as follows:
   index.html
   about.html
   _fragment.html
-/errors
-  404.html
 /static
   other-public-files.txt
 ```
