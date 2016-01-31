@@ -44,6 +44,7 @@ The website project directory should look as follows:
   _fragment.html
 /static
   other-public-files.txt
+robots.txt
 ```
 
 Anywhere in the tree files and directories prefixed with an `_` are ignored.

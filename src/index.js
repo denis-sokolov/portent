@@ -8,6 +8,7 @@ var favicon = require('./favicon');
 var htaccess = require('./htaccess');
 var images = require('./images');
 var pages = require('./pages');
+var robots = require('./robots');
 var scripts = require('./scripts');
 var selfLinks = require('./self-links');
 var server = require('./server');
@@ -29,6 +30,7 @@ module.exports = function(directory){
 				favicon(directory + '/img/favicon.png'),
 				scripts(directory, { minify: true }),
 				stylesheets(directory, { minify: true }),
+				robots(directory),
 				statics(directory),
 				selfLinks(),
 				base.warnAboutMissingBase(opts.onWarning),
@@ -46,6 +48,7 @@ module.exports = function(directory){
 				favicon(directory + '/img/favicon.png'),
 				scripts(directory),
 				stylesheets(directory),
+				robots(directory),
 				statics(directory),
 				base.addBase(),
 				selfLinks()
