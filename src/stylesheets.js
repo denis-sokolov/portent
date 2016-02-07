@@ -1,12 +1,13 @@
 'use strict';
 
+var autoprefixer = require('autoprefixer');
 var gulp = require('gulp');
-var gulpAutoprefixer = require('gulp-autoprefixer');
 var gulpSourcemaps = require('gulp-sourcemaps');
 var gulpConcat = require('gulp-concat');
 var gulpCssNano = require('gulp-cssnano');
 var gulpIf = require('gulp-if');
 var gulpLess = require('gulp-less');
+var gulpPostcss = require('gulp-postcss');
 var md5 = require('md5');
 
 var expires = require('./util/expires');
@@ -28,7 +29,7 @@ module.exports = function(directory, options){
 					paths: [__dirname + '/css']
 				})))
 				.pipe(gulpConcat('compiled.css'))
-				.pipe(gulpAutoprefixer())
+				.pipe(gulpPostcss([autoprefixer]))
 				.pipe(gulpIf(options.minify, gulpCssNano()))
 				.pipe(gulpSourcemaps.write()));
 		});
