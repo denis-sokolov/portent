@@ -29,10 +29,10 @@ module.exports = function(directory, options){
 				.pipe(gulpIf(/\.less$/, gulpLess({
 					paths: [__dirname + '/css']
 				})))
-				.pipe(gulpConcat('compiled.css'))
 				.pipe(gulpPostcss([autoprefixer,
 					postcssUrl({ url: 'inline' })
 				]))
+				.pipe(gulpConcat('compiled.css'))
 				.pipe(gulpIf(options.minify, gulpCssNano()))
 				.pipe(gulpSourcemaps.write()));
 		});

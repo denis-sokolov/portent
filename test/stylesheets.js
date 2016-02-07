@@ -77,3 +77,7 @@ test('does not remove comments in development', function(t, css){
 test('inlines assets', function(t, css){
 	t.ok(css.indexOf('image/png;base64') > -1, 'has base64 inlined resource');
 });
+
+test('inlines assets in subdirectories', function(t, css){
+	t.ok(css.indexOf('image/png;base64') > -1, 'has base64 inlined resource');
+}, { fixture: 'stylesheets-subdir' });
