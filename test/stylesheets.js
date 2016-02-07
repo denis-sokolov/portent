@@ -74,10 +74,56 @@ test('does not remove comments in development', function(t, css){
 	t.ok(css.indexOf('a multiline comment') > -1, 'has multiline coments');
 }, { build: false });
 
-test('inlines assets', function(t, css){
-	t.ok(css.indexOf('image/png;base64') > -1, 'has base64 inlined resource');
+test('does not rewrite root URLs', function(t, css){
+	t.ok(css.match(/url\(['"]?favicon\.png['"]?\)/), 'has local image import');
 });
 
-test('inlines assets in subdirectories', function(t, css){
-	t.ok(css.indexOf('image/png;base64') > -1, 'has base64 inlined resource');
+lib('places images appropriately', '/css/favicon.png', {
+	type: 'image/png'
+});
+
+test('rewrites subdir URLs', function(t, css){
+	t.ok(css.match(/url\(['"]?subdir\/favicon\.png['"]?\)/), 'has subdir image import');
 }, { fixture: 'stylesheets-subdir' });
+
+test('rewrites subdir URLs for LESS', function(t, css){
+	t.ok(css.match(/url\(['"]?_subdir\/favicon\.png['"]?\)/), 'has subdir image import');
+}, { fixture: 'stylesheets-subdir-less' });
+
+lib('locates css in a subdirectory', function(env){
+	return env.request('/').then(function(res){
+		var url = res.$('[rel="stylesheet"]').attr('href');
+		env.test.ok(url.indexOf('/css/') === 0);
+	});
+});
+
+lib('does not include images as css', function(env){
+	return env.request('/').then(function(res){
+		var count = res.$('[rel="stylesheet"]').length;
+		env.test.equal(count, 1);
+	});
+}, { fixture: 'stylesheets-subdir' });
+
+lib('places images appropriately', '/css/subdir/favicon.png', {
+	fixture: 'stylesheets-subdir',
+	type: 'image/png'
+});
+
+lib('places images appropriately', '/css/_subdir/favicon.png', {
+	fixture: 'stylesheets-subdir-less',
+	type: 'image/png'
+});
+
+test('does not break data urls', function(t, css){
+	t.ok(
+		css.match(/url\(['"]?data:text\/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D['"]?\)/),
+		'has a data url'
+	);
+});
+
+test('does not break external urls', function(t, css){
+	t.ok(
+		css.match(/url\(['"]?http:\/\/example\.com\/foo['"]?\)/),
+		'has an external url'
+	);
+});

@@ -62,7 +62,7 @@ It is recommended to include a <base> tag in every template and refer to files a
 ### CSS
 All CSS are combined and included in your HTML.
 
-To refer to images, use `url('img/...')` syntax regardless of what's the depth of CSS file in the directory tree.
+To refer to images, use `url('foo.png')` syntax, where the images are located in the same directory as your CSS file, or deeper with `url('foo/bar.png')`.
 
 If a file ends in `.less`, it will be processed with LESS. Take care to ensure your submodules are hidden behind an `_` name, or else they will be included twice.
 
