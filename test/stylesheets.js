@@ -73,3 +73,7 @@ test('does not remove comments in development', function(t, css){
 	// t.ok(css.indexOf('an inline comment') > -1, 'has inline coments');
 	t.ok(css.indexOf('a multiline comment') > -1, 'has multiline coments');
 }, { build: false });
+
+test('inlines assets', function(t, css){
+	t.ok(css.indexOf('image/png;base64') > -1, 'has base64 inlined resource');
+});

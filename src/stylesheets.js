@@ -9,6 +9,7 @@ var gulpIf = require('gulp-if');
 var gulpLess = require('gulp-less');
 var gulpPostcss = require('gulp-postcss');
 var md5 = require('md5');
+var postcssUrl = require('postcss-url');
 
 var expires = require('./util/expires');
 var gulpStreamToString = require('./util/gulp-stream-to-string');
@@ -29,7 +30,9 @@ module.exports = function(directory, options){
 					paths: [__dirname + '/css']
 				})))
 				.pipe(gulpConcat('compiled.css'))
-				.pipe(gulpPostcss([autoprefixer]))
+				.pipe(gulpPostcss([autoprefixer,
+					postcssUrl({ url: 'inline' })
+				]))
 				.pipe(gulpIf(options.minify, gulpCssNano()))
 				.pipe(gulpSourcemaps.write()));
 		});
