@@ -39,7 +39,7 @@
     "promise": "^7.0.4",
     "sort-stream2": "^1.0.0",
     "stream-combiner": "^0.2.2",
-    "through2": "^2.0.0"
+    "through2": "^2.0.1"
   },
   "devDependencies": {
     "eslint": "^1.3.1",
