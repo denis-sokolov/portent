@@ -78,12 +78,7 @@ module.exports = function(directory, options){
 			}
 
 			if (req.path.match(/^\/css\//)) {
-				get().then(function(generatedResult){
-					if (generatedResult.resources.indexOf(req.path.slice(5) > -1))
-						return res.sendFile(directory + req.path);
-					next();
-				}).catch(err => next(err));
-				return;
+				return res.sendFile(directory + req.path);
 			}
 
 			next();
