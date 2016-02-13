@@ -36,10 +36,10 @@ module.exports = function(directory, options){
 				.pipe(sortStream(function(a, b){
 					return getFiles.sort(jsDirectories)(a.path, b.path);
 				}))
-				.pipe(gulpSourcemaps.init({loadMaps: true}))
+				.pipe(gulpIf(options.sourcemaps, gulpSourcemaps.init({loadMaps: true})))
 				.pipe(gulpConcat('compiled.js'))
 				.pipe(gulpIf(options.minify, gulpUglify({preserveComments: 'license'})))
-				.pipe(gulpSourcemaps.write())
+				.pipe(gulpIf(options.sourcemaps, gulpSourcemaps.write()))
 			);
 		});
 	};

@@ -21,10 +21,16 @@ var test = function(name, check, opts){
 	}, opts);
 };
 
-var simple = function(name, stringToSearch){
+var simple = function(name, stringToSearch, opts){
 	return test(name, function(t, js){
 		t.ok(js.indexOf(stringToSearch) > -1, 'contains string');
-	});
+	}, opts);
+};
+
+var negative = function(name, stringToSearch, opts){
+	return test(name, function(t, js){
+		t.equal(js.indexOf(stringToSearch), -1, 'does not contain string');
+	}, opts);
 };
 
 simple('JS is combined and served', 'Hello, world!');
@@ -46,6 +52,10 @@ test('JS is minified in build', function(t, js){
 test('JS is not minified in dev', function(t, js){
 	t.ok(js.indexOf('just a comment') > -1, 'does have a comment inside');
 }, { build: false });
+
+
+simple('contains sourcemaps', 'sourceMappingURL=data:', { build: false });
+negative('does not contain sourcemaps in production', 'sourceMappingURL=data:', { server: false });
 
 lib('JS has far away Expires header', function(env){
 	return env.request('/').then(function(res){
