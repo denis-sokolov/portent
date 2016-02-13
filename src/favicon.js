@@ -1,25 +1,13 @@
 'use strict';
 
-var fs = require('fs');
-
-var Promise = require('promise');
+var fileExists = require('./util/exists');
 
 module.exports = function(imgpath){
-	var fileExists = function(){
-		return Promise.denodeify(fs.stat)(imgpath)
-			.then(() => true)
-			.then(null, function(error){
-				if (error.code === 'ENOENT')
-					return false;
-				throw error;
-			});
-	};
-
 	return {
 		middleware: function(req, res, next){
 			if (req.path !== '/favicon.png')
 				return next();
-			fileExists()
+			fileExists(imgpath)
 				.then(function(exists){
 					if (exists)
 						return res.sendFile(imgpath);
@@ -28,11 +16,11 @@ module.exports = function(imgpath){
 				.then(null, next);
 		},
 		paths: function(){
-			return fileExists()
+			return fileExists(imgpath)
 				.then(exists => exists ? ['/favicon.png'] : []);
 		},
 		modifyHtml: function($, env){
-			return fileExists()
+			return fileExists(imgpath)
 				.then(function(exists){
 					if (exists && $('link[rel="icon"]').length === 0) {
 						var tag = $('<link rel=icon>').attr('href', 'favicon.png');
