@@ -47,7 +47,7 @@ module.exports = function(directory){
 				images(directory),
 				favicon(directory + '/img/favicon.png'),
 				scripts(directory),
-				stylesheets(directory),
+				stylesheets(directory, { sourcemaps: true }),
 				robots(directory),
 				statics(directory),
 				base.addBase(),

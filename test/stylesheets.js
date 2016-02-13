@@ -21,23 +21,24 @@ var test = function(name, check, opts){
 	}, opts);
 };
 
-var simple = function(name, stringToSearch){
+var simple = function(name, stringToSearch, opts){
 	return test(name, function(t, css){
 		t.ok(css.indexOf(stringToSearch) > -1);
-	});
+	}, opts);
 };
 
-var negative = function(name, stringToNotFind){
+var negative = function(name, stringToNotFind, opts){
 	return test(name, function(t, css){
 		t.equal(css.indexOf(stringToNotFind), -1);
-	});
+	}, opts);
 };
 
 simple('CSS is combined and served', 'margin-bottom');
 simple('compiles LESS', '#abc');
 negative('ignores _ prefixed files', '#def');
 negative('ignores _ prefixed directories', 'underscored-directory:');
-simple('includes LESS sourcemaps', 'sourceMappingURL');
+simple('includes LESS sourcemaps', 'sourceMappingURL', { build: false });
+negative('does not include LESS sourcemaps', 'sourceMappingURL', { server: false });
 simple('does not parse non-LESS files', 'no-less-here:');
 negative('does not include non-LESS and non-CSS files', 'Custom-information');
 simple('autoprefixes', ':-webkit-full-screen');

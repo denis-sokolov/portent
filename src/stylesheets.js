@@ -18,6 +18,7 @@ var getFiles = require('./util/get-files');
 module.exports = function(directory, options){
 	options = options || {};
 	options.minify = Boolean(options.minify);
+	options.sourcemaps = Boolean(options.sourcemaps);
 
 	var get = function(){
 		return getFiles(
@@ -26,7 +27,7 @@ module.exports = function(directory, options){
 		).then(function(files){
 			var resources = [];
 			return gulpStreamToString(gulp.src(files)
-				.pipe(gulpSourcemaps.init())
+				.pipe(gulpIf(options.sourcemaps, gulpSourcemaps.init()))
 				.pipe(gulpIf(/\.less$/, gulpLess({
 					paths: [__dirname + '/css'],
 					relativeUrls: true
@@ -49,7 +50,7 @@ module.exports = function(directory, options){
 				]))
 				.pipe(gulpConcat('compiled.css'))
 				.pipe(gulpIf(options.minify, gulpCssNano()))
-				.pipe(gulpSourcemaps.write())
+				.pipe(gulpIf(options.sourcemaps, gulpSourcemaps.write()))
 			)
 				.then(function(css){
 					return {
