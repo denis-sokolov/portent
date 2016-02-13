@@ -18,10 +18,9 @@ module.exports = function(directory, options){
 	options = options || {};
 
 	var jsDirectories = [directory + '/js'];
-	var filesPromise = getFiles(jsDirectories, ['js']);
 
 	var get = function(){
-		return filesPromise.then(function(files){
+		return getFiles(jsDirectories, ['js']).then(function(files){
 			return gulpStreamToString(gulp.src(files)
 				.pipe(gulpIf(/\.cjs\.js$/, through2.obj(function (file, enc, next){
 					return browserify(file.path, {
