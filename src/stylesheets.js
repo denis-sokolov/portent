@@ -12,6 +12,7 @@ var md5 = require('md5');
 var postcssUrl = require('postcss-url');
 
 var expires = require('./util/expires');
+var fileExists = require('./util/exists');
 var gulpStreamToString = require('./util/gulp-stream-to-string');
 var getFiles = require('./util/get-files');
 
@@ -86,9 +87,17 @@ module.exports = function(directory, options){
 		},
 		paths: function(){
 			return get().then(function(res){
-				return res.resources
-					.map(path => '/css/' + path)
-					.concat(res.css ? cssPath(res) : []);
+				return Promise.all(
+					res.resources
+						.map(path => '/css/' + path)
+						.map(path =>
+							fileExists(directory + path)
+								.then(exists => exists ? path : null))
+				).then(function(paths){
+					return paths
+						.filter(p => p)
+						.concat(res.css ? cssPath(res) : []);
+				});
 			});
 		},
 		modifyHtml: function($, env){
