@@ -7,12 +7,7 @@ module.exports = function(directory){
 		middleware: function(req, res, next){
 			if (!req.path.match(/^\/static\//))
 				return next();
-			var filepath = directory + decodeURIComponent(req.path);
-			getFiles(directory + '/static').then(function(files){
-				if (files.indexOf(filepath) === -1)
-					return next();
-				res.sendFile(filepath);
-			});
+			res.sendFile(directory + decodeURIComponent(req.path));
 		},
 		paths: function(){
 			return getFiles(directory + '/static').then(function(files){

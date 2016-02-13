@@ -7,9 +7,10 @@ var test = function(name, imagePath, imageType, staticPath, staticType){
 	lib(name, staticPath, {type: staticType});
 };
 
-test.negative = function(name, imagePath, staticPath){
-	lib(name.replace('file', 'image'), imagePath, 404);
-	lib(name, staticPath, 404);
+test.negative = function(name, imagePath, staticPath, opts){
+	opts.status = 404;
+	lib(name.replace('file', 'image'), imagePath, opts);
+	lib(name, staticPath, opts);
 };
 
 
@@ -26,4 +27,6 @@ test('includes an file with a space',
 	'/static/with a space.txt', 'text/plain');
 
 test.negative('respect _ in the file name',
-	'/img/_red-phone-box.jpg', '/static/_my-internal-notes.txt');
+	'/img/_red-phone-box.jpg', '/static/_my-internal-notes.txt', {
+		server: false
+	});
