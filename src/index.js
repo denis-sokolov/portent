@@ -28,7 +28,7 @@ module.exports = function(directory){
 			var plugins = [
 				images(directory),
 				favicon(directory + '/img/favicon.png'),
-				scripts(directory, { minify: true }),
+				scripts(directory),
 				stylesheets(directory, { minify: true }),
 				robots(directory),
 				statics(directory),
@@ -46,7 +46,7 @@ module.exports = function(directory){
 			var plugins = [
 				images(directory),
 				favicon(directory + '/img/favicon.png'),
-				scripts(directory),
+				scripts(directory, { debug: true }),
 				stylesheets(directory, { sourcemaps: true }),
 				robots(directory),
 				statics(directory),

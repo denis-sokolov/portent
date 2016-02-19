@@ -24,7 +24,7 @@ module.exports = function(directory, options){
 			return gulpStreamToString(gulp.src(files)
 				.pipe(gulpIf(/\.cjs\.js$/, through2.obj(function (file, enc, next){
 					return browserify(file.path, {
-						debug: true, fullPaths: true
+						debug: options.debug, fullPaths: true
 					})
 						.bundle(function(err, res){
 							if (err) return next(err);
@@ -35,10 +35,10 @@ module.exports = function(directory, options){
 				.pipe(sortStream(function(a, b){
 					return getFiles.sort(jsDirectories)(a.path, b.path);
 				}))
-				.pipe(gulpIf(options.sourcemaps, gulpSourcemaps.init({loadMaps: true})))
+				.pipe(gulpIf(options.debug, gulpSourcemaps.init({loadMaps: true})))
 				.pipe(gulpConcat('compiled.js'))
-				.pipe(gulpIf(options.minify, gulpUglify({preserveComments: 'license'})))
-				.pipe(gulpIf(options.sourcemaps, gulpSourcemaps.write()))
+				.pipe(gulpIf(!options.debug, gulpUglify({preserveComments: 'license'})))
+				.pipe(gulpIf(options.debug, gulpSourcemaps.write()))
 			);
 		});
 	};

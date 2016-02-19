@@ -55,6 +55,11 @@ test('JS is not minified in dev', function(t, js){
 
 
 simple('contains sourcemaps', 'sourceMappingURL=data:', { build: false });
+simple('contains sourcemaps in short modules, without Browserify',
+	'sourceMappingURL=data:', { build: false, fixture: 'short' });
+test('contains one sourcemap, not two', function(t, js){
+	t.equal((js.match(/sourceMappingURL/) || []).length, 1);
+}, { build: false });
 negative('does not contain sourcemaps in production', 'sourceMappingURL=data:', { server: false });
 
 lib('JS has far away Expires header', function(env){
