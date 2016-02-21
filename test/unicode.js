@@ -2,13 +2,11 @@
 
 var test = require('./lib');
 
-/* eslint no-process-env: 0 */
-if (process.env.TRAVIS) {
-	// Does not work on Travis
-	// The unicode feature is not fully supported in portent.
-	test.skip('simple unicode');
-} else {
-	test('simple unicode', '/абжы-ąčšž', {
-		contains: '<p>Добрый день!</p>'
-	});
-}
+// On different operating systems the actual file on disk might be normalized differently
+// depending on system behavior and git precomposeunicode.
+test('normalized NFC request is served', '/абжы-ąčšž', {
+	contains: '<p>Добрый день!</p>'
+});
+test('normalized NFD request is served', '/абжы-ąčšž', {
+	contains: '<p>Добрый день!</p>'
+});

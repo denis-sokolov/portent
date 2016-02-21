@@ -65,7 +65,9 @@ module.exports = function(projectDirectory, plugins, options){
 			]).then(function(res){
 				var foundErrors = res[0].map(code => '/.' + code);
 				var foundPages = res[1];
-				return foundErrors.concat(foundPages);
+				return foundErrors.concat(foundPages)
+					.map(p => [p.normalize('NFC'), p.normalize('NFD')])
+					.reduce((a, b) => a.concat(b));
 			});
 		}
 	};

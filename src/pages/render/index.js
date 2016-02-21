@@ -33,7 +33,12 @@ var renderNunjucks = function(dirs, requestPath){
 
 module.exports = function(templates, plugins){
 	var render = function(dirs, req, requestPath){
-		return renderNunjucks(dirs, requestPath)
+		return renderNunjucks(dirs, requestPath.normalize('NFC'))
+			.then(null, function(error){
+				if (error.templateNotFound)
+					return renderNunjucks(dirs, requestPath.normalize('NFD'));
+				throw error;
+			})
 			.then(function(html){
 				return cheerio.load(html, {
 					decodeEntities: false
