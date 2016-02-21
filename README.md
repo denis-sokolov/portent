@@ -28,6 +28,7 @@ The website project directory should look as follows:
 /css
   header.css
   typography.less
+	whatever.ie9.css
 /errors
   404.html
 /img
@@ -65,6 +66,8 @@ All CSS are combined and included in your HTML.
 To refer to images, use `url('foo.png')` syntax, where the images are located in the same directory as your CSS file, or deeper with `url('foo/bar.png')`.
 
 If a file ends in `.less`, it will be processed with LESS. Take care to ensure your submodules are hidden behind an `_` name, or else they will be included twice.
+
+If a file ends in `.ie9.css` or `ie9.less` (or ie 8), the files will be conditionally connected only in Internet Explorer.
 
 #### Portent-base
 Portent includes a base stylesheet that promotes some best practices. Import it using `@import 'portent/base.less'`.

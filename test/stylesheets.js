@@ -2,10 +2,28 @@
 
 var lib = require('./lib');
 
-var getCss = function(env){
+var getProperCssUrl = function($){
+	return $('[rel="stylesheet"]').attr('href');
+};
+
+var getIeCssUrl = function(html, version){
+	var regex = new RegExp(
+		'<!--\\[if IE ' + version + '\\]>\\s*' +
+		'<link\\s+rel\\s*=\\s*["\']?stylesheet["\']?\\s*href\\s*=\\s*["\']?([^"\' >]+)["\']?\\s*>\\s*' +
+		'<!\\[endif\\]-->'
+	);
+	var m = html.match(regex);
+	if (!m)
+		throw new Error('No conditional stylesheet found.');
+	return m[1];
+};
+
+
+var getCss = function(env, options){
+	options = options || {};
 	return env.request('/').then(function(res){
-		return env.request(res.$('[rel="stylesheet"]').attr('href'));
-	}).then(function(res){
+		return options.ie ? getIeCssUrl(res.text, options.ie) : getProperCssUrl(res.$);
+	}).then(env.request).then(function(res){
 		env.test.equal(res.code, 200, 'css is served');
 		if (res.type)
 			env.test.equal(res.type, 'text/css', 'css is served with a correct type');
@@ -15,7 +33,7 @@ var getCss = function(env){
 
 var test = function(name, check, opts){
 	lib('CSS ' + name, function(env){
-		return getCss(env).then(function(css){
+		return getCss(env, opts).then(function(css){
 			return check(env.test, css);
 		});
 	}, opts);
@@ -23,13 +41,13 @@ var test = function(name, check, opts){
 
 var simple = function(name, stringToSearch, opts){
 	return test(name, function(t, css){
-		t.ok(css.indexOf(stringToSearch) > -1);
+		t.ok(css.indexOf(stringToSearch) > -1, 'string "' + stringToSearch + '" is found');
 	}, opts);
 };
 
 var negative = function(name, stringToNotFind, opts){
 	return test(name, function(t, css){
-		t.equal(css.indexOf(stringToNotFind), -1);
+		t.equal(css.indexOf(stringToNotFind), -1, 'string "' + stringToNotFind + '" is not found');
 	}, opts);
 };
 
@@ -128,3 +146,12 @@ test('does not break external urls', function(t, css){
 		'has an external url'
 	);
 });
+
+negative('does not include ie8 specific styles', 'ie8-style');
+negative('does not include ie8 specific styles in ie9', 'ie8-style', { ie: 9 });
+negative('does not include ie9 specific styles', 'ie9-style');
+negative('does not include ie9 specific styles in ie9', 'ie9-style', { ie: 8 });
+simple('includes ie8 styles in ie8 file', 'ie8-style', { ie: 8 });
+simple('includes ie9 styles in ie9 file', 'ie9-style', { ie: 9 });
+negative('does not include regular styles in ie8', 'padding', { ie: 8 });
+negative('does not include regular styles in ie9', 'padding', { ie: 9 });

@@ -31,7 +31,8 @@ var extensionsGlob = function(extensions){
 	return '.{' + extensions.join(',') + '}';
 };
 
-module.exports = function(directories, extensions){
+module.exports = function(directories, extensions, opts){
+	opts = opts || {};
 	if (typeof directories === 'string')
 		directories = [directories];
 	return Promise.all(directories.map(function(directory){
@@ -42,6 +43,10 @@ module.exports = function(directories, extensions){
 		return Array.prototype.concat.apply([], filesDeep);
 	}).then(function(files){
 		return files.filter(function(file){
+			if (opts.include && !opts.include.exec(file))
+				return false;
+			if (opts.exclude && opts.exclude.exec(file))
+				return false;
 			if (file.indexOf('/../') > -1)
 				throw new Error('Internal assertion error, found /../ in a path: ' + file);
 			var isIgnored = _.some(directories, function(directory){
