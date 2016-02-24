@@ -8,7 +8,7 @@ module.exports = function(){
 			res.sendFile(__dirname + '/htaccess');
 		},
 		paths: function(){
-			return ['/.htaccess'];
+			return ['.htaccess'];
 		}
 	};
 };

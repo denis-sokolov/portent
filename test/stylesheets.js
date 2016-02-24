@@ -112,7 +112,7 @@ test('rewrites subdir URLs for LESS', function(t, css){
 lib('locates css in a subdirectory', function(env){
 	return env.request('/').then(function(res){
 		var url = res.$('[rel="stylesheet"]').attr('href');
-		env.test.ok(url.indexOf('/css/') === 0);
+		env.test.ok(url.indexOf('css/') === 0);
 	});
 });
 

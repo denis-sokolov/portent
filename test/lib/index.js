@@ -71,6 +71,9 @@ var api = function(name, testPath, opts){
 		return requestPromise.then(function(request){
 			var env = {
 				request: function(path){
+					// Simulate <base> resolution
+					if (path[0] !== '/')
+						path = '/' + path;
 					if (!path)
 						throw new Error('Asked to request an empty path');
 					return request(path).then(function(res){

@@ -16,7 +16,7 @@ module.exports = function(directory){
 		paths: function(){
 			return Promise.denodeify(fs.readFile)(path)
 				.then(function(){
-					return ['/robots.txt'];
+					return ['robots.txt'];
 				})
 				.catch(function(){
 					return [];

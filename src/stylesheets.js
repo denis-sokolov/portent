@@ -86,7 +86,7 @@ module.exports = function(directory, options){
 
 	var cssPath = function(css, opts){
 		opts = opts || {};
-		return '/css/styles.' + (opts.ie ? 'ie' + opts.ie + '.' : '') + md5(css) + '.css';
+		return 'css/styles.' + (opts.ie ? 'ie' + opts.ie + '.' : '') + md5(css) + '.css';
 	};
 
 	return {
@@ -123,9 +123,9 @@ module.exports = function(directory, options){
 			return getAll().then(function(res){
 				return Promise.all(
 					res.resources
-						.map(path => '/css/' + path)
+						.map(path => 'css/' + path)
 						.map(path =>
-							fileExists(directory + path)
+							fileExists(directory + '/' + path)
 								.then(exists => exists ? path : null))
 				).then(function(paths){
 					return paths

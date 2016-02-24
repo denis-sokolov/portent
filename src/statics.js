@@ -12,7 +12,7 @@ module.exports = function(directory){
 		paths: function(){
 			return getFiles(directory + '/static').then(function(files){
 				return files.map(function(file){
-					return file.substring(directory.length);
+					return file.substring(directory.length + 1);
 				});
 			});
 		}

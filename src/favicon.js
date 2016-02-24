@@ -17,7 +17,7 @@ module.exports = function(imgpath){
 		},
 		paths: function(){
 			return fileExists(imgpath)
-				.then(exists => exists ? ['/favicon.png'] : []);
+				.then(exists => exists ? ['favicon.png'] : []);
 		},
 		modifyHtml: function($, env){
 			return fileExists(imgpath)

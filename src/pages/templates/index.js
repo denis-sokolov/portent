@@ -62,13 +62,13 @@ module.exports = function(directory){
 			return getFiles(pagesDirectory, ['html']).then(function(paths){
 				return paths
 					// Make paths relative to /pages
-					.map(function(p){ return p.substring(pagesDirectory.length); })
+					.map(function(p){ return p.substring(pagesDirectory.length + 1); })
 
 					// Remove .html extension
 					.map(function(p){ return p.substring(0, p.length - 5); });
 			}).then(function(paths){
 				return paths.map(function(p){
-					return p.replace(/\/index$/, '/');
+					return p.replace(/(^|\/)index$/, '$1');
 				});
 			});
 		}

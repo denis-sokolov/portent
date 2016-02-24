@@ -47,7 +47,7 @@ module.exports = function(directory, options){
 		return get().then(function(code){
 			if (!code)
 				return [];
-			return ['/scripts.' + md5(code) + '.js'];
+			return ['scripts.' + md5(code) + '.js'];
 		});
 	};
 
