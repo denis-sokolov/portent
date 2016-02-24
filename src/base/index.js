@@ -7,7 +7,7 @@ api.addBase = function(){
 		modifyHtml: function($, env){
 			if ($('base').length === 0) {
 				var tag = $('<base>');
-				env.appendToHead(tag);
+				env.prependToHead(tag);
 			}
 			var url = env.req.protocol + '://' + env.req.headers.host + '/';
 			$('base').attr('href', url);

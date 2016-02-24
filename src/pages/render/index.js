@@ -63,6 +63,17 @@ module.exports = function(templates, plugins){
 								else if ($('body').length)
 									$('body').before(tag);
 								else $.root().prepend(tag);
+							},
+							prependToHead: function(tag){
+								if ($('head').length)
+									$('head').prepend(tag);
+								else if ($('meta, title').length)
+									$('meta, title').first().before(tag);
+								else if ($('html').length)
+									$('html').prepend(tag);
+								else if ($('body').length)
+									$('body').before(tag);
+								else $.root().prepend(tag);
 							}
 						});
 				})).then(function(){

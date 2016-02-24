@@ -9,6 +9,13 @@
 <title>{% block title %}Title{% endblock %}</title>
 
 <!--
+	It is important that this block is above any URL refering elements,
+	as it might contain a <base> tag.
+-->
+{% block head %}
+{% endblock %}
+
+<!--
 	X-UA-Compatible must appear at the top, except for meta and title
 	IE=edge still is useful forhiding compatibility button,
 	for fixing websites served in an intranet, for improved functionality in 8.
@@ -40,10 +47,6 @@ https://developer.chrome.com/multidevice/android/installtohomescreen
 -->
 <meta name="mobile-web-app-capable" content=yes>
 <meta name="apple-mobile-web-app-capable" content=yes>
-
-
-{% block head %}
-{% endblock %}
 
 
 {% block body %}
