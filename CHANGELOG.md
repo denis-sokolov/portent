@@ -1,3 +1,7 @@
+# 3.1.0
+
+* Add transform pages dynamically possibility
+
 # 3.0.0
 
 * BC: add OpenType styles
