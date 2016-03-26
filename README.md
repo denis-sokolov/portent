@@ -57,6 +57,14 @@ The structure above will produce a website that responds to URLs `/` and `/about
 
 It is recommended to include a <base> tag in every template and refer to files and URLs relative to the root of the project, without using a leading slash. For example, to link from `projects/foo` to `about`, use a string `about`, not `../about`. A workflow different from this has undefined behavior.
 
+If `pages` contains a file `transform.js`, it will be used to modify HTML programatically:
+
+```js
+module.exports = function(path, $){
+  $.root().append('Hello, world');
+}
+```
+
 ### Errors
 `errors` directory contains templates for HTTP errors.
 

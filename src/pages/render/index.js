@@ -6,6 +6,11 @@ var cheerio = require('cheerio');
 var Promise = require('promise');
 var nunjucks = require('nunjucks');
 
+var exists = function(path){
+	return Promise.denodeify(fs.stat)(path)
+		.then(function(){ return true; }, function(){ return false; });
+}
+
 var renderNunjucks = function(dirs, requestPath){
 	// Attempt to distinguish errors
 	var clarifyError = function(err){
@@ -13,8 +18,7 @@ var renderNunjucks = function(dirs, requestPath){
 			throw err;
 
 		return Promise.all(dirs.map(function(dir){
-			return Promise.denodeify(fs.stat)(dir + '/' + requestPath)
-				.then(function(){ return true; }, function(){ return false; });
+			return exists(dir + '/' + requestPath)
 		})).then(function(results){
 			if (results.filter(function(exists){ return exists; }).length > 0)
 				throw err;
@@ -76,9 +80,19 @@ module.exports = function(templates, plugins){
 								else $.root().prepend(tag);
 							}
 						});
-				})).then(function(){
-					return $.html();
-				});
+				})).then(function(){ return $; });
+			}).then(function($){
+				return Promise.all(dirs.map(function(directory){
+					var transformFilePath = directory + '/transform.js';
+					return exists(transformFilePath).then(function(transformExists){
+						if (transformExists) {
+							delete require.cache[require.resolve(transformFilePath)]
+							return require(transformFilePath)(requestPath, $);
+						}
+					});
+				})).then(function(){ return $; });
+			}).then(function($){
+				return $.html();
 			});
 	};
 
