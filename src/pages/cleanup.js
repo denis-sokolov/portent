@@ -6,6 +6,7 @@ module.exports = function(html, minify){
 	return minifier.minify(html, {
 		removeComments: minify,
 		ignoreCustomComments: [
+			/^!/,
 			/@license\b/
 		],
 
