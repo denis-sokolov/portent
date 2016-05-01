@@ -1,6 +1,6 @@
 p {
 	margin-bottom: 10em;
-	no-less-here: @see;
+	no-less-here:darken(white, 50%);
 }
 
 :fullscreen p {

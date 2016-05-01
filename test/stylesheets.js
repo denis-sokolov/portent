@@ -57,7 +57,7 @@ negative('ignores _ prefixed files', '#def');
 negative('ignores _ prefixed directories', 'underscored-directory:');
 simple('includes LESS sourcemaps', 'sourceMappingURL', { build: false });
 negative('does not include LESS sourcemaps', 'sourceMappingURL', { server: false });
-simple('does not parse non-LESS files', 'no-less-here:');
+simple('does not parse non-LESS files', 'no-less-here:darken');
 negative('does not include non-LESS and non-CSS files', 'Custom-information');
 simple('autoprefixes', ':-webkit-full-screen');
 simple('includes predefined LESS', 'resize:');
