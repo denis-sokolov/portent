@@ -42,7 +42,7 @@
     "through2": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "^2.4.0",
+    "eslint": "^3.3.1",
     "fs-extra": "^0.30.0",
     "memoizee": "^0.3.9",
     "supertest": "^1.1.0",
