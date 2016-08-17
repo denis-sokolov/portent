@@ -5,10 +5,9 @@ var fs = require('fs');
 
 var Promise = require('promise');
 
-module.exports = function(directory, destination, options){
+module.exports = function(directory, destination){
 	directory += (directory.endsWith('/') ? '' : '/');
 	destination += (destination.endsWith('/') ? '' : '/');
-	options = options || {};
 
 	return Promise.denodeify(fs.stat)(directory)
 		.then(function(stats){
