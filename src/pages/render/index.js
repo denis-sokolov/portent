@@ -9,7 +9,7 @@ var nunjucks = require('nunjucks');
 var exists = function(path){
 	return Promise.denodeify(fs.stat)(path)
 		.then(function(){ return true; }, function(){ return false; });
-}
+};
 
 var renderNunjucks = function(dirs, requestPath){
 	// Attempt to distinguish errors
@@ -18,7 +18,7 @@ var renderNunjucks = function(dirs, requestPath){
 			throw err;
 
 		return Promise.all(dirs.map(function(dir){
-			return exists(dir + '/' + requestPath)
+			return exists(dir + '/' + requestPath);
 		})).then(function(results){
 			if (results.filter(function(exists){ return exists; }).length > 0)
 				throw err;
@@ -86,7 +86,7 @@ module.exports = function(templates, plugins){
 					var transformFilePath = directory + '/transform.js';
 					return exists(transformFilePath).then(function(transformExists){
 						if (transformExists) {
-							delete require.cache[require.resolve(transformFilePath)]
+							delete require.cache[require.resolve(transformFilePath)];
 							return require(transformFilePath)(requestPath, $);
 						}
 					});
