@@ -29,7 +29,7 @@
     "gulp-if": "^2.0.0",
     "gulp-less": "^3.0.3",
     "gulp-postcss": "^6.1.0",
-    "gulp-sourcemaps": "^1.5.2",
+    "gulp-sourcemaps": "^2.0.0",
     "gulp-uglify": "^2.0.0",
     "html-minifier": "^3.0.0",
     "lodash": "^4.0.0",
