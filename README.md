@@ -88,7 +88,7 @@ If a file ends in `.min.js`, it will not be processed, but included as is in a s
 If a file ends in `.cjs.js`, it will be Browserified. Take care to ensure your submodules are hidden behind an `_` name, or else they will be included twice.
 
 ### HTML
-HTML files are processed using [nunjucks](https://github.com/mozilla/nunjucks) templating syntax that is primarily useful for its [`extends` tag](https://mozilla.github.io/nunjucks/templating.html#extends).
+HTML files are processed using [nunjucks](https://github.com/mozilla/nunjucks) templating syntax (version 2) that is primarily useful for its [`extends` tag](https://mozilla.github.io/nunjucks/templating.html#extends).
 
 #### Portent-base
 Portent includes a base template for HTML websites that promotes best practices in HTML authoring. Use it by extending in your templates with `{% extends "portent/base.html" %}`, and then defining blocks and variables as follows:
