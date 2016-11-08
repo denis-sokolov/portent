@@ -34,7 +34,7 @@
     "html-minifier": "^3.0.0",
     "lodash": "^4.0.0",
     "md5": "^2.0.0",
-    "nunjucks": "^2.0.0",
+    "nunjucks": ">=2.0.0 <3.0.0",
     "postcss-url": "^5.1.1",
     "promise": "^7.0.4",
     "sort-stream2": "^1.0.0",
