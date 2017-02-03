@@ -1,3 +1,7 @@
+# 3.2.0
+
+* Add custom htaccess contents
+
 # 3.1.0
 
 * Add transform pages dynamically possibility
