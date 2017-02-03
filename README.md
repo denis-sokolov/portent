@@ -45,6 +45,7 @@ The website project directory should look as follows:
   _fragment.html
 /static
   other-public-files.txt
+htaccess
 robots.txt
 ```
 

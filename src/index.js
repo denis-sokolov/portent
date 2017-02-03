@@ -34,7 +34,7 @@ module.exports = function(directory){
 				statics(directory),
 				selfLinks(),
 				base.warnAboutMissingBase(opts.onWarning),
-				htaccess()
+				htaccess(directory)
 			];
 			plugins.push(pages(directory, plugins, {
 				minify: true

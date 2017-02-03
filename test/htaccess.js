@@ -16,3 +16,8 @@ test('adds .htaccess charset', '/.htaccess', {
 	server: false,
 	contains: 'AddDefaultCharset utf-8\n'
 });
+
+test('adds custom .htaccess', '/.htaccess', {
+	server: false,
+	contains: '# Custom htaccess content\n'
+});
