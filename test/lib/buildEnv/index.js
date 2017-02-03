@@ -21,7 +21,7 @@ module.exports = function(fixtureDir){
 		}
 	}).then(function(){
 		var request = function(requestPath) {
-			return new Promise(function(resolve){
+			return new Promise(function(resolve, reject){
 				var filepath = diskEnv.dest + '/' + requestPath +
 				(requestPath.substring(requestPath.length - 1) === '/' ? 'index' : '') +
 
@@ -35,10 +35,12 @@ module.exports = function(fixtureDir){
 				try {
 					contents = fs.readFileSync(filepath, 'utf-8');
 				} catch (err) {
-					return resolve({
-						text: '',
-						code: 404
-					});
+					if (err.code === 'ENOENT')
+						return resolve({
+							text: '',
+							code: 404
+						});
+					return reject(err);
 				}
 
 				resolve({
