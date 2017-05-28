@@ -19,7 +19,7 @@
     "argparse": "^1.0.2",
     "autoprefixer": "^7.0.0",
     "browserify": "^14.0.0",
-    "cheerio": "^0.22.0",
+    "cheerio": "^1.0.0-rc.1",
     "express": "^4.13.3",
     "frozen-express": "^2.0.0",
     "glob": "^7.0.0",
