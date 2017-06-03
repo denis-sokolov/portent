@@ -43,15 +43,15 @@ module.exports = function(directory, options){
 				})))
 				.pipe(gulpPostcss([autoprefixer,
 					postcssUrl({
-						url: function(url, _decl, _from, filedir){
-							if (url.match(/^[a-z]+:/))
-								return url;
+						url: function(asset, dir){
+							if (asset.url.match(/^[a-z]+:/))
+								return asset.url;
 							// 4 is length of /css/
-							var prefix = filedir.slice(directory.length + 5);
+							var prefix = dir.file.slice(directory.length + 5);
 							if (prefix) {
 								prefix += '/';
 							}
-							var resourcePath = prefix + url;
+							var resourcePath = prefix + asset.url;
 							resources.push(resourcePath);
 							return resourcePath;
 						}
