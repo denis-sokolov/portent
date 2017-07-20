@@ -11,7 +11,7 @@
     "ci": "npm run lint && npm run _raw_tests",
     "lint": "eslint src test",
     "test": "npm run _raw_tests | tap-spec",
-    "watch-tests": "watchy --watch src,test -- npm test",
+    "watch-tests": "watchy --watch src --watch test -- npm test",
     "_raw_tests": "tape test/*.js"
   },
   "license": "ISC",
@@ -50,7 +50,7 @@
     "tape": "^4.2.0",
     "tmp": "0.0.30",
     "walkdir": "0.0.11",
-    "watchy": "^0.6.2"
+    "watchy": "^0.7.0"
   },
   "repository": "git@github.com:denis-sokolov/portent.git"
 }
