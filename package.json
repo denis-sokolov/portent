@@ -35,7 +35,7 @@
     "lodash": "^4.0.0",
     "md5": "^2.0.0",
     "nunjucks": ">=2.0.0 <3.0.0",
-    "postcss-url": "^7.0.0",
+    "postcss-url": "^7.1.2",
     "promise": "^8.0.0",
     "sort-stream2": "^1.0.0",
     "stream-combiner": "^0.2.2",
